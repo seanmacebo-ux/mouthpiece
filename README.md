@@ -18,17 +18,21 @@ Opening `index.html` directly also works (the service worker just won't register
 
 ## How it works
 
-The pipeline is **Topic → News → Angle → Talking points**:
+The pipeline is **Topic → News → Angle → Facts → Talking points**, and every card moves through four stages:
 
-- **Home** — four pillar tiles, nothing else: **SEM** (all Google things live here), **SEO**, **SMA**, **AI**. Each tile shows three counts: fresh news, angles ready, cards ready to record. One tap into a pillar. If any drops are unfiled, a quiet row under the tiles links to them.
+**idea → researched → ready → recorded** (skip is the off-ramp, not a stage)
+
+- **Home** — four pillar tiles, nothing else: **SEM** (all Google things live here), **SEO**, **SMA**, **AI**. Each tile shows three counts: fresh news, cards in the pipeline (not yet recorded), cards ready to record. One tap into a pillar. If any drops are unfiled, a quiet row under the tiles links to them.
 - **Pillar** — three stacked sections:
-  - **News we're tracking** — from `data/news.json`. Empty until the harvester is wired.
+  - **News we're tracking** — from `data/news.json`, newest first, with a count in the label. Source name is a badge; official sources (docs / changelogs / platform blogs) get an accent OFFICIAL badge; every item's URL is a visible, tappable "Read the source" link.
   - **Angles** — from `data/angles.json`. The stances we're going with, per subject.
-  - **Ready to record** — the cards for this pillar, filtered To record / Recorded / Skipped.
-- **Card** — the full card: story, source, THE ANGLE (the money section), then beats as a tappable checklist for recording. Save / Recorded / Skip set the status. An unfiled drop shows four pillar buttons to file it.
-- **Drop** — big textarea to throw a raw idea, then one tap on a pillar files it (or "file later" to skip). It lands as a `fresh` idea card with beats pending.
+  - **The pipeline** — the cards for this pillar, filtered by stage chips: Idea / Researched / Ready / Recorded / Skipped (defaults to Ready). Every card row carries its stage badge.
+- **Card** — the full card: story, source, a tappable **stage row** (tap a stage to shift the card there), THE ANGLE (the money section), **THE FACTS — receipts before takes** (claims with tappable source links; a quiet nudge when there are none yet), then beats as a tappable checklist for recording. Skip off-ramps the card; a skipped card gets a "Back in the pipeline" button. An unfiled drop shows four pillar buttons to file it.
+- **Drop** — big textarea to throw a raw idea, then one tap on a pillar files it (or "file later" to skip). It lands as an idea-stage card with beats pending.
 
-Canonical data lives in `data/`. Status changes, beat ticks, dropped ideas, and pillar assignments live in `localStorage`, overlaid on the JSON at load. Editing the JSON never clobbers your statuses.
+**Stage derivation** for cards with no stored stage: `recorded` status → recorded; beats present → ready (facts are what MAKE a card researched, but beats mean it's recordable — a ready card without facts gets a "no receipts yet" nudge); facts only → researched; otherwise idea.
+
+Canonical data lives in `data/`. Stage shifts (`mouthpiece.stage.v1`), skip status, beat ticks, dropped ideas, and pillar assignments live in `localStorage`, overlaid on the JSON at load. Editing the JSON never clobbers your stages or statuses.
 
 ## Pillars & subjects
 
@@ -54,11 +58,16 @@ Subjects are lightweight labels/filters, not navigation:
   "story": "1-2 sentences: what happened / what this is",
   "source": "url or null",
   "angle": "why a marketer running real accounts should care — blunt, first-person",
+  "facts": [
+    { "claim": "a verifiable statement backing the take", "source": "https://where-it-came-from" }
+  ],
   "beats": ["3-6 things to SAY to camera, not sentences to read"],
   "status": "fresh | saved | recorded | skipped",
   "platforms": ["tiktok", "linkedin", "meta"]
 }
 ```
+
+`facts` is optional: the receipts behind the take, researched BEFORE recording. Each fact is a claim plus the URL it came from — the card view renders them between the angle and the beats with tappable source links. The live stage (idea / researched / ready / recorded) is a localStorage overlay (`mouthpiece.stage.v1`), derived from the fields above on first load; `status` remains for the skip off-ramp and legacy recorded state.
 
 ### `data/news.json`
 
@@ -71,9 +80,12 @@ Subjects are lightweight labels/filters, not navigation:
   "title": "what changed",
   "url": "link",
   "note": "why it matters, one line",
+  "official": true,
   "status": "new | angled | ignored"
 }
 ```
+
+`official` marks first-party sources — platform docs, changelogs, official blogs (`true`) vs commentary/press (`false`). Official items get an accent OFFICIAL badge in the news section.
 
 ### `data/angles.json`
 

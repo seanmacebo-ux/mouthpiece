@@ -1,5 +1,13 @@
 # Mouthpiece — Decisions
 
+## 2026-10-07 — Stage pipeline + facts layer (evening steers)
+
+- **Stages replace fresh/saved as the primary pipeline.** Sean: "we need to know how to shift these things." Every card sits at one of four visible stages — **idea → researched → ready → recorded** — shown as a tappable 4-segment row on the card (tap a stage to set it) and as filter chips + badges in the pillar's pipeline section. Overlay key: `mouthpiece.stage.v1` (canonical JSON untouched). `skipped` survives as the off-ramp only (status overlay), with a "Back in the pipeline" button to un-skip; Save/Recorded buttons are gone.
+- **Stage derivation for existing cards:** legacy `recorded` status → recorded; beats present → ready; facts only (no beats) → researched; nothing → idea. Facts are what MAKE a card researched — a card can be ready without facts, but the UI nudges "no receipts yet".
+- **Facts layer: receipts before takes.** Sean: "it needs to be more based on facts, we have to do research before we just start saying these things." Cards carry an optional `facts` array of `{claim, source}`; rendered between THE ANGLE and the beats as "THE FACTS — receipts before takes", each claim with a prominent tappable source link. App renders only — facts content comes from research sessions, never invented by the app.
+- **News front and center.** Sean: "show me the news... I need to see your sources." Source name is a badge; `official: true` (docs/changelogs/platform blogs) gets an accent OFFICIAL badge; every item renders a visible "Read the source — {host}" link; items sort newest first; the section label carries the count. Links show the hostname, not the raw URL — tappable beats readable-but-ignored.
+- **Home tile counts: news / in pipeline / ready.** "In pipeline" = not recorded, not skipped; "ready" = stage ready. The tile now answers "what's moving" instead of "what's unwatched".
+
 ## 2026-10-07 — Pillar restructure (IA rebuild)
 
 - **Flat card deck rejected; four pillars are the spine.** Sean's steer: "my topics are SEM, SEO, SMA... all Google things live under SEM... I need topics, I need us to have news that we're tracking, I want us to have the angles that we're going with, and then you can give me my talking points." The content pipeline is **Topic → News → Angle → Talking points**, and the app now mirrors it.

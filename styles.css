@@ -171,6 +171,15 @@ a { color: var(--text); }
 .badge.status-recorded { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
 .badge.status-skipped { color: var(--danger); border-color: var(--danger); }
 
+/* stage badges — the pipeline at a glance */
+.badge.stage-researched { color: var(--text); border-color: var(--muted); }
+.badge.stage-ready { color: var(--accent); border-color: var(--accent); }
+.badge.stage-recorded { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+
+/* news source badges */
+.badge.source { color: var(--text); border-color: var(--muted); font-size: 12px; }
+.badge.official { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+
 .card h3 { margin: 0 0 4px; font-size: 18px; line-height: 1.25; }
 .card .story { margin: 0; color: var(--muted); font-size: 15px; }
 
@@ -213,6 +222,86 @@ a { color: var(--text); }
   margin: 0 0 6px;
 }
 .angle p { margin: 0; font-size: 17px; font-weight: 500; line-height: 1.55; }
+
+/* ---- stage row: idea → researched → ready → recorded ---- */
+
+.stage-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.stage-seg {
+  min-height: 48px;
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px 2px;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+.stage-seg:active { background: var(--surface-2); }
+.stage-seg.on {
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---- the facts: receipts before takes ---- */
+
+.facts { margin: 18px 0; }
+.facts .label {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+.fact-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+
+.fact {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.fact-claim { margin: 0; font-size: 15px; line-height: 1.5; }
+
+.fact-source, .news-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-all;
+}
+
+.facts-nudge {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin: 0;
+}
 
 .beats-label {
   font-family: "Oswald", sans-serif;

@@ -27,13 +27,13 @@
     <a id="unfiled-row" class="unfiled" href="#/pillar/unfiled" hidden></a>
   </main>
 
-  <!-- PILLAR: news / angles / ready to record -->
+  <!-- PILLAR: news / angles / the pipeline -->
   <main id="view-pillar" class="view" hidden>
     <a class="back" href="#/">&larr; PILLARS</a>
     <h2 id="pillar-title" class="view-title"></h2>
 
     <section class="pillar-section">
-      <h3 class="section-label">News we're tracking</h3>
+      <h3 id="news-label" class="section-label">News we're tracking</h3>
       <ul id="news-list" class="feed"></ul>
       <p id="news-empty" class="empty-quiet" hidden>Harvester not wired yet — news lands here.</p>
     </section>
@@ -45,10 +45,10 @@
     </section>
 
     <section class="pillar-section">
-      <h3 class="section-label">Ready to record</h3>
-      <div class="chip-row" id="ready-chips" role="tablist" aria-label="Filter cards"></div>
+      <h3 class="section-label">The pipeline</h3>
+      <div class="chip-row" id="ready-chips" role="tablist" aria-label="Filter cards by stage"></div>
       <ul id="ready-list" class="feed"></ul>
-      <p id="ready-empty" class="empty-quiet" hidden>Nothing here yet — drop something.</p>
+      <p id="ready-empty" class="empty-quiet" hidden>Nothing at this stage — shift something along.</p>
     </section>
   </main>
 
