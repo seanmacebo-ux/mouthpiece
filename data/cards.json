@@ -179,7 +179,7 @@
     "angle": "PMax isn't a campaign, it's a deal: you give Google your money, your creative and your conversion data, and it decides everything else. That deal can be great — but only if your inputs are clean. Feed it broken tracking and bad assets, and the black box optimises garbage at scale.",
     "beats": [
       "PMax = one campaign, every Google surface, Google decides the mix",
-      "you control three things: budget, assets, conversion signals",
+      "you control budget, assets, signals — and since 2025, negative keywords and brand exclusions. USE them",
       "broken tracking in = confident garbage out, at scale",
       "it cannibalises your brand search unless you actively stop it",
       "when PMax 'works amazing', check how much was just your brand name"
@@ -189,6 +189,29 @@
       "tiktok",
       "linkedin",
       "meta"
+    ],
+    "facts": [
+      {
+        "claim": "Google's own help docs offer PMax brand exclusions specifically so the campaign won't serve on your branded queries (incl. misspellings) on Search and Shopping — Google built the control because brand bleed is real.",
+        "source": "https://support.google.com/google-ads/answer/14505308"
+      },
+      {
+        "claim": "On 30 April 2025 Google announced channel-level performance reporting and FULL search terms reporting for PMax — Google's own answer to years of 'black box' criticism.",
+        "source": "https://blog.google/products/ads-commerce/channel-performance-reporting-coming-to-performance-max/"
+      },
+      {
+        "claim": "PMax campaign-level negative keywords rolled out in 2025 and the limit was raised from 100 to 10,000 per campaign — advertisers now control more than just budget, assets and signals.",
+        "source": "https://searchengineland.com/google-ads-expands-negative-keyword-limits-pmax-453154",
+        "flag": "contradicts-beat"
+      },
+      {
+        "claim": "Q1 2026 B2B SaaS audit data: without brand exclusions, 8-15% of PMax spend goes to traffic that would have converted anyway, inflating apparent PMax ROAS by 15-30%.",
+        "source": "https://www.growthspreeofficial.com/blogs/branded-search-cannibalization-pmax-b2b-saas-2026"
+      },
+      {
+        "claim": "E-commerce case study: inspecting the actual converting search terms inside PMax showed a disproportionate share were branded queries — PMax taking credit for sales the brand name earned.",
+        "source": "https://www.groas.com/post/performance-max-cannibalized-ecommerce-brand-search-case-study"
+      }
     ]
   },
   {
@@ -213,6 +236,24 @@
       "tiktok",
       "linkedin",
       "meta"
+    ],
+    "facts": [
+      {
+        "claim": "Google's own title docs: titles can be 150 characters but only ~the first 70 are shown, put the most important details first, and 'use keywords to help connect your product with customer searches' — official confirmation the title IS your keyword targeting.",
+        "source": "https://support.google.com/merchants/answer/6324415"
+      },
+      {
+        "claim": "A Producthero Google Shopping A/B test found titles optimised with real search terms drove 66% more clicks, 45% more impressions and 14% higher CTR than the control group.",
+        "source": "https://megadigital.ai/en/blog/google-shopping-product-title-optimization/"
+      },
+      {
+        "claim": "Item disapprovals commonly come from data mismatches between feed and landing page, missing GTINs, image violations or policy conflicts — and repeated violations escalate to account-level suspension that kills every product.",
+        "source": "https://www.channable.com/blog/google-merchant-center-disapproved-products"
+      },
+      {
+        "claim": "Google's recommended title structure is attribute-first: distinctive product attributes at the beginning (e.g. 'Nexus 7 tablet, 32 GB, black'), the opposite of most default platform exports.",
+        "source": "https://support.google.com/merchants/answer/6324415"
+      }
     ]
   },
   {
@@ -261,6 +302,28 @@
       "tiktok",
       "linkedin",
       "meta"
+    ],
+    "facts": [
+      {
+        "claim": "Even in 2025, only ~50% of iOS app users globally consent to tracking under Apple's ATT (AppsFlyer data) — half of iOS users are invisible to cross-app attribution.",
+        "source": "https://www.advanced-television.com/2025/04/24/data-50-of-app-users-now-consent-to-tracking/"
+      },
+      {
+        "claim": "Google officially cancelled third-party cookie deprecation on 22 April 2025 — Chrome keeps cookies, no opt-out prompt, after 6 years of 'cookiepocalypse' warnings.",
+        "source": "https://www.emarketer.com/content/google-backs-off-third-party-cookie-ban-amid-regulatory-pressure"
+      },
+      {
+        "claim": "GA4's behavioural modelling (Google's own docs) uses machine learning to ESTIMATE the behaviour of users who decline cookies — part of your GA4 numbers is modelled, not observed, and needs 1,000+ daily events to even switch on.",
+        "source": "https://support.google.com/tagmanager/answer/11161109"
+      },
+      {
+        "claim": "Meta reports on average ~26% more conversions than analytics tools for the same campaigns, driven by modelled conversions and view-through attribution.",
+        "source": "https://www.trackingplan.com/blog/meta-ads-vs-ga-4-conversion-mismatch"
+      },
+      {
+        "claim": "Meta itself estimated Apple's ATT privacy change would cost it ~$10 billion in 2022 revenue — the platforms admit signal loss at the billions scale.",
+        "source": "https://www.cnbc.com/2022/02/02/facebook-says-apple-ios-privacy-change-will-cost-10-billion-this-year.html"
+      }
     ]
   },
   {
@@ -333,6 +396,28 @@
       "tiktok",
       "linkedin",
       "meta"
+    ],
+    "facts": [
+      {
+        "claim": "Per Google's docs, AI Max is NOT a new campaign type — it's a one-click setting inside existing Search campaigns that expands matching beyond your keyword list using broad match and keywordless tech (learning from your keywords, ads and landing pages).",
+        "source": "https://support.google.com/google-ads/answer/15910187"
+      },
+      {
+        "claim": "Google's launch claim: ~14% more conversions/conversion value at similar CPA/ROAS, rising to ~27% for campaigns running mostly exact/phrase match.",
+        "source": "https://www.searchenginejournal.com/its-official-google-launches-ai-max-for-search-campaigns/546087/"
+      },
+      {
+        "claim": "Independent industry tests of AI Max reported underwhelming ('meh') results versus Google's uplift claims — supervision and testing on your own account matters.",
+        "source": "https://ppc.land/googles-ai-max-for-search-campaigns-deliver-meh-results-industry-tests-reveal/"
+      },
+      {
+        "claim": "The search terms report adds 'AI Max' as a match type plus a source column showing whether a match came from broad match expansion or keywordless matching — the check-your-search-terms audit is literally built in.",
+        "source": "https://support.google.com/google-ads/answer/15910187"
+      },
+      {
+        "claim": "AI Max shipped WITH guardrails: brand controls (include/exclude brands), 'locations of interest' geo controls, and URL-level controls — Google itself assumes you'll constrain it.",
+        "source": "https://www.searchenginejournal.com/its-official-google-launches-ai-max-for-search-campaigns/546087/"
+      }
     ]
   },
   {
@@ -368,11 +453,11 @@
     "title": "SKAGs vs STAGs — everyone says SKAGs are dead",
     "story": "The industry declared single-keyword ad groups dead years ago and moved to themes. On my real accounts, tight control is still the default — and the theme-everything crowd is repeating a blog post, not a test.",
     "source": null,
-    "angle": "SKAG as default, STAG as the exception — that's my actual stance from actual accounts, and it's the opposite of what every recycled article says. The point isn't the acronym, it's control: knowing exactly which search triggered which ad. Loosen only when the data says you can.",
+    "angle": "SKAG as default, STAG as the exception — that's my actual stance from actual accounts, and it's the opposite of what every recycled article says. The point isn't the acronym, it's control plus the search terms report telling you what actually triggered what — close variants killed literal exactness years ago. Loosen only when the data says you can.",
     "beats": [
       "everyone says SKAGs are dead — everyone's quoting the same blog post",
       "my default on real accounts is still tight control: SKAG first",
-      "the win is knowing exactly which search triggered which ad",
+      "the win is control plus visibility — tight structure, and living in the search terms report",
       "STAG is the exception I earn my way into, not the starting point",
       "test it on your account — don't take the industry's word, or mine"
     ],
@@ -381,6 +466,25 @@
       "tiktok",
       "linkedin",
       "meta"
+    ],
+    "facts": [
+      {
+        "claim": "Since 2018-2019, exact match keywords also match 'same meaning' close variants — exact match is no longer literally exact, so ad-group structure alone no longer guarantees you know which search triggered which ad (the search terms report does).",
+        "source": "https://searchengineland.com/googles-latest-change-has-search-marketers-rethinking-keyword-match-types-305278",
+        "flag": "contradicts-beat"
+      },
+      {
+        "claim": "Google's official account structure guidance ('ABCs of Account Structure') explicitly recommends consolidating into themed ad groups so Smart Bidding optimises around one target — 'SKAGs are dead' is Google's own line, not just blogs.",
+        "source": "https://support.google.com/google-ads/answer/14752782"
+      },
+      {
+        "claim": "Optmyzr's study of ~30,000 Google Ads accounts found exact match beat broad match on ROAS in ~74% of accounts and on CTR in ~86% — practitioner data still backs tight control over Google's loosening advice.",
+        "source": "https://www.optmyzr.com/blog/google-ads-match-type-performance/"
+      },
+      {
+        "claim": "The direction of travel is keywordless: AI Max adds matching beyond your keyword list entirely (from landing pages and assets), opted in per campaign — control is becoming something you actively defend.",
+        "source": "https://support.google.com/google-ads/answer/15910187"
+      }
     ]
   },
   {
@@ -717,6 +821,24 @@
       "tiktok",
       "linkedin",
       "meta"
+    ],
+    "facts": [
+      {
+        "claim": "Google's own stats: customers are 2.7x more likely to consider a business reputable with a complete Business Profile, 70% more likely to visit, and 50% more likely to consider purchasing.",
+        "source": "https://support.google.com/business/answer/10515606"
+      },
+      {
+        "claim": "Apple Business Connect is free and lets any business claim and customise its place card across Apple Maps, Siri, Messages and Wallet — reaching over a billion Apple users.",
+        "source": "https://www.apple.com/newsroom/2023/01/introducing-apple-business-connect/"
+      },
+      {
+        "claim": "~76% of people who search for something nearby on their smartphone visit a business within 24 hours, and ~28% of local searches result in a purchase (Google consumer data).",
+        "source": "https://mailmodo.com/guides/local-seo-statistics/"
+      },
+      {
+        "claim": "There are over 1 billion 'near me' searches every month in the US alone — maps-intent search volume is enormous and mostly mobile (~76% of local searches on smartphones).",
+        "source": "https://wisernotify.com/blog/google-business-profile-statistics/"
+      }
     ]
   },
   {
@@ -754,7 +876,7 @@
     "source": null,
     "angle": "SEO now means being the answer in three places: Google, Microsoft, and the AI layer on top of both. The inputs barely changed — clear content, real authority, being referenced — but the stakes did: AI gives ONE answer, not ten blue links. Second place used to get clicks. Now it gets nothing.",
     "beats": [
-      "your customers are already asking AI instead of Googling",
+      "your customers are starting to ask AI what they used to Google — and Google still drives ~170x the clicks, so you play both",
       "AI gives ONE answer — there's no page one to sneak onto",
       "the AI learns who you are from the same places Google does: content, mentions, authority",
       "being referenced beats being optimised in this game",
@@ -765,6 +887,25 @@
       "tiktok",
       "linkedin",
       "meta"
+    ],
+    "facts": [
+      {
+        "claim": "Google's AI Overviews reach 2 billion monthly users (Alphabet Q2 2025 earnings), and AI Mode hit 100M monthly users across the US and India within months of launch.",
+        "source": "https://techcrunch.com/2025/07/23/googles-ai-overviews-have-2b-monthly-users-ai-mode-100m-in-the-us-and-india"
+      },
+      {
+        "claim": "Pew Research (real browsing data, 900 users): when an AI summary appears, users click a regular result only 8% of the time vs 15% without one — and click the AI's cited sources just 1% of the time.",
+        "source": "https://9to5google.com/2025/07/23/google-ai-overview-link-click-study/"
+      },
+      {
+        "claim": "ChatGPT reached roughly 900 million weekly active users by early 2026 — AI assistants are now a mainstream answer surface, not a niche.",
+        "source": "https://contextbolt.com/ai-search-statistics/"
+      },
+      {
+        "claim": "Perspective check: Similarweb measured all AI platforms combined sending ~1.13B monthly referral visits to the top 1,000 sites vs Google Search's 191B — about 170:1. People ask AI, but Google still delivers almost all the traffic; 'already asking AI instead of Googling' overstates the shift today.",
+        "source": "https://www.digitaleer.com/ai-impact-google-search-traffic-2026/",
+        "flag": "contradicts-beat"
+      }
     ]
   },
   {
@@ -837,6 +978,24 @@
       "tiktok",
       "linkedin",
       "meta"
+    ],
+    "facts": [
+      {
+        "claim": "TikTok's own research: over 63% of the highest-CTR videos hit their key message or product within the first 3 seconds.",
+        "source": "https://ads.tiktok.com/business/en-US/blog/9-creative-tips-to-drive-auction-ad-performance"
+      },
+      {
+        "claim": "Facebook's own data: people spend on average just 1.7 seconds with a piece of content in mobile feed (2.5s on desktop) — the hook IS the ad.",
+        "source": "https://www.socialmediatoday.com/news/facebook-releases-new-guide-to-help-advertisers-maximize-video-ad-performan/450818"
+      },
+      {
+        "claim": "Facebook's video guidance: the first 3 seconds decide retention — of viewers who pass 3 seconds, 45% keep watching to 30 seconds; and 0.25 seconds of exposure is enough for people to recall feed content.",
+        "source": "https://www.socialmediatoday.com/news/facebook-releases-new-guide-to-help-advertisers-maximize-video-ad-performan/450818"
+      },
+      {
+        "claim": "TikTok officially recommends businesses post 1-4 times PER DAY as an always-on strategy to test what lands — platform-endorsed volume, not guru advice.",
+        "source": "https://stackinfluence.com/blog/how-often-you-post-on-tiktok-for-a-business"
+      }
     ]
   },
   {
@@ -885,6 +1044,24 @@
       "tiktok",
       "linkedin",
       "meta"
+    ],
+    "facts": [
+      {
+        "claim": "Meta's own stated benchmark: Advantage+ shopping campaigns averaged a 17% lower cost per acquisition and 32% higher return on ad spend vs traditional campaigns.",
+        "source": "https://www.socialmediatoday.com/news/meta-adds-new-insight-targeting-options-advantage-shopping-campaigns/711896/"
+      },
+      {
+        "claim": "Advantage+ automates audience targeting, placements, budget allocation and creative testing in one package, and now supports sales, lead gen and app install objectives — not just e-commerce.",
+        "source": "https://magicbrief.com/post/meta-advantage-updates-that-will-simplify-campaign-setup-and-boost-performance"
+      },
+      {
+        "claim": "A campaign only reports as 'Advantage+ on' when all three are active: Advantage+ placements, Advantage+ audience, and campaign budget optimisation — it's a full handover, not a single toggle.",
+        "source": "https://madgicx.com/blog/new-advantage-updates"
+      },
+      {
+        "claim": "The 'signal in' argument is Meta-documented: running the pixel AND Conversions API redundantly improved CPA by ~13% on average in Meta's measurement — the algorithm is only as good as the events you feed it.",
+        "source": "https://www.journify.io/resources/how-to-improve-meta-match-rate/"
+      }
     ]
   },
   {
@@ -909,6 +1086,28 @@
       "tiktok",
       "linkedin",
       "meta"
+    ],
+    "facts": [
+      {
+        "claim": "Meta's CFO estimated Apple's ATT would cost Meta ~$10 billion in 2022 revenue — the platform's own admission of how much signal iOS privacy removed.",
+        "source": "https://www.cnbc.com/2022/02/02/facebook-says-apple-ios-privacy-change-will-cost-10-billion-this-year.html"
+      },
+      {
+        "claim": "Even in 2025 only ~50% of iOS users opt into tracking globally — roughly half of iPhone traffic stays dark to cross-app attribution.",
+        "source": "https://www.advanced-television.com/2025/04/24/data-50-of-app-users-now-consent-to-tracking/"
+      },
+      {
+        "claim": "Meta reports on average ~26% more conversions than analytics tools for the same activity — over-claiming is measurable, not a vibe.",
+        "source": "https://www.trackingplan.com/blog/meta-ads-vs-ga-4-conversion-mismatch"
+      },
+      {
+        "claim": "Meta's default attribution is 7-day click PLUS 1-day view: it counts purchases from people who only SAW the ad — conversions GA4 will never credit to Meta because there was no click.",
+        "source": "https://www.jonloomer.com/qvt/ads-manager-reporting-and-ga4-dont-line-up/"
+      },
+      {
+        "claim": "Meta recommends running pixel + Conversions API redundantly (13% avg CPA improvement in Meta's study), but events must share an event_id for deduplication — set up wrong, you double-count or drop conversions.",
+        "source": "https://www.journify.io/resources/how-to-improve-meta-match-rate/"
+      }
     ]
   },
   {
