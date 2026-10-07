@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0a0a0a"/>
+  <!-- blunt megaphone mark -->
+  <path d="M120 230 L300 150 L300 362 L120 282 Z" fill="#fff470"/>
+  <rect x="88" y="222" width="44" height="68" rx="10" fill="#fff470"/>
+  <path d="M330 200 q50 56 0 112" stroke="#fff470" stroke-width="26" stroke-linecap="round" fill="none"/>
+  <path d="M374 168 q96 88 0 176" stroke="#fff470" stroke-width="26" stroke-linecap="round" fill="none" opacity="0.55"/>
+</svg>

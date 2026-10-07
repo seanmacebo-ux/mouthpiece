@@ -1,0 +1,1154 @@
+[
+  {
+    "id": "scar-tracking-launched-unverified",
+    "created": "2026-10-07",
+    "type": "scar",
+    "pillar": "SEM",
+    "subject": "tracking",
+    "title": "I launched conversion tracking and never checked it fired",
+    "story": "Campaigns went live, tracking tags were 'installed', and nobody fired a test conversion. The account spent real money while Google optimised toward a signal that didn't exist.",
+    "source": null,
+    "angle": "Half the accounts I inherit have this exact problem and the owner has no idea. If you didn't SEE a test conversion land in the platform, your tracking is not live — it's a hope. Smart Bidding on broken tracking isn't automation, it's a slot machine.",
+    "beats": [
+      "I shipped tracking without firing a test conversion",
+      "the platform said 'active' — that means nothing",
+      "smart bidding optimised to a ghost signal",
+      "rule now: no launch until I watch a test conversion land in the account",
+      "go check yours right now — when did a conversion last actually record?"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "scar-split-remove-create",
+    "created": "2026-10-06",
+    "type": "scar",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "title": "The £58 lesson in deleting before creating",
+    "story": "I automated a Google Ads change as two steps: remove the old setup, then create the new one. The remove worked. The create failed. The account ran exposed and the wasted spend was mine to explain.",
+    "source": null,
+    "angle": "Everyone automating their ads is one half-finished script away from this. If a destructive change and its replacement aren't one atomic operation, there's a window where the account is live with no guardrails — and failures always pick that window.",
+    "beats": [
+      "I deleted the old setup before the new one existed",
+      "the create call failed — the delete didn't",
+      "£58 of spend ran with no guardrails before I caught it",
+      "nothing LOOKED broken, that's the scary part",
+      "rule: remove and create ship together or they don't ship"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "scar-backfill-wiped-everything",
+    "created": "2026-10-05",
+    "type": "scar",
+    "pillar": "AI",
+    "subject": "vibe-coding",
+    "title": "My one-client backfill deleted every client's data",
+    "story": "I ran a data backfill scoped to a single account, but the delete step behind it didn't respect that scope. It cleared the reporting data for the whole book of clients before reloading one.",
+    "source": null,
+    "angle": "The dangerous part of automation isn't the AI — it's the delete-then-reload pattern hiding inside your pipelines. If you can't say exactly what a script deletes before it inserts, you haven't automated reporting, you've armed it.",
+    "beats": [
+      "scoped the job to ONE account — the delete ran on ALL of them",
+      "the filter was on the insert, not the delete",
+      "the worst bugs do their damage silently and finish green",
+      "ask of every script: what does this delete, exactly?",
+      "and it bit me TWICE before the rule stuck — that's the honest bit"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "scar-live-account-experiments",
+    "created": "2026-10-04",
+    "type": "scar",
+    "pillar": "AI",
+    "subject": "apis",
+    "title": "I tested an unknown API on a live ad account",
+    "story": "New API, unfamiliar behaviour, and I pointed my first experiments at a production ad account because 'validate mode' felt safe enough. Validate mode is not a sandbox.",
+    "source": null,
+    "angle": "Marketers are wiring AI into ad accounts that spend real money, and most are learning the API on production. A dry-run flag checks syntax, not consequences. If you wouldn't test brake pads on the motorway, don't test write-calls on a live account.",
+    "beats": [
+      "first time using the API — straight onto a spending account",
+      "'validate only' checks your syntax, not your blast radius",
+      "test accounts are free — mistakes on live ones aren't",
+      "rule: unknown API means test account, no exceptions",
+      "your AI agent needs this rule even more than you do"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "build-reporting-pipeline",
+    "created": "2026-10-03",
+    "type": "build",
+    "pillar": "AI",
+    "subject": "vibe-coding",
+    "title": "I replaced a week of reporting with a pipeline",
+    "story": "Agency reporting used to be humans copy-pasting platform numbers into docs. I built a pipeline system that pulls every ad platform and analytics source into one place and generates client reports for 150+ accounts.",
+    "source": null,
+    "angle": "Reporting is the first thing every agency should automate and the last thing most do, because it feels like 'real dev work'. It isn't anymore. I'm a marketer, not a developer, and the whole stack is me describing what I want to AI and testing what comes back.",
+    "beats": [
+      "reporting was days of copy-paste across every account, every month",
+      "now: pipelines pull every platform into one database, nightly",
+      "150+ accounts, reports generated, humans just review",
+      "I didn't learn to code — I learned to specify and verify",
+      "the time freed up goes into the accounts, which is what clients pay for"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "build-claude-operations",
+    "created": "2026-10-02",
+    "type": "build",
+    "pillar": "AI",
+    "subject": "file-management",
+    "title": "A marketer's AI operating system (built by a non-dev)",
+    "story": "I run my whole working day through an AI setup I built myself: a memory system that survives between sessions, API wrappers for every tool I touch, and a dashboard that tells me what needs attention across all clients.",
+    "source": null,
+    "angle": "The gap in AI content is that devs show off tools marketers can't use, and marketers share prompts that don't compound. I'm the crossover case: no dev background, real agency workload, and a system where the AI actually remembers my clients, my rules, and my past mistakes.",
+    "beats": [
+      "ChatGPT forgets you ever existed — my setup doesn't",
+      "memory files per client: state, decisions, every lesson learned",
+      "wrappers so the AI works my actual tools, not just chats about them",
+      "a dashboard that surfaces what needs me today",
+      "built by a marketer, by describing and testing — that's the point"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "build-team-knowledge-guide",
+    "created": "2026-10-01",
+    "type": "build",
+    "pillar": "SEO",
+    "subject": "content",
+    "title": "I wrote the guide I wish someone gave me",
+    "story": "Every lesson from running real ad accounts — the mistakes, the playbooks, the 'nobody tells you this' stuff — goes into an internal knowledge guide my team learns from. The scars become the curriculum.",
+    "source": null,
+    "angle": "Agencies lose their best knowledge every time someone fixes a problem and moves on. Logging mistakes feels like admitting failure, so nobody does it — which is exactly why doing it is an advantage. My worst days as a marketer are now my team's training material.",
+    "beats": [
+      "every real mistake gets logged: what happened, what it cost, the rule now",
+      "that log became the team's training guide",
+      "new hires learn from my scars instead of earning their own",
+      "and the AI reads the same guide — same rules, human or machine",
+      "your agency already paid for these lessons — are you keeping the receipts?"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-what-pmax-actually-is",
+    "created": "2026-09-30",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "pmax",
+    "title": "What Performance Max actually is",
+    "story": "PMax is Google's black-box campaign type that runs across Search, Shopping, YouTube, Display and Gmail at once. Most advertisers run it without understanding what they handed over.",
+    "source": null,
+    "angle": "PMax isn't a campaign, it's a deal: you give Google your money, your creative and your conversion data, and it decides everything else. That deal can be great — but only if your inputs are clean. Feed it broken tracking and bad assets, and the black box optimises garbage at scale.",
+    "beats": [
+      "PMax = one campaign, every Google surface, Google decides the mix",
+      "you control three things: budget, assets, conversion signals",
+      "broken tracking in = confident garbage out, at scale",
+      "it cannibalises your brand search unless you actively stop it",
+      "when PMax 'works amazing', check how much was just your brand name"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-merchant-center-mistakes",
+    "created": "2026-09-29",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "merchant-centre",
+    "title": "The Merchant Center mistakes everyone makes",
+    "story": "Your product feed decides which searches your Shopping ads can even enter. Most stores upload whatever their platform exports and never touch it again.",
+    "source": null,
+    "angle": "Everyone blames the campaign when Shopping underperforms, but the feed is the campaign. Titles are your keywords, product types are your structure, and the defaults your store exports are built for nobody. Fixing the feed is the highest-ROI hour in e-commerce advertising.",
+    "beats": [
+      "your feed title IS your keyword targeting — front-load what people search",
+      "default platform exports are built for nobody",
+      "product type and category are independent jobs, not duplicates",
+      "disapprovals sit silently killing coverage — nobody checks",
+      "one hour in the feed beats ten hours in campaign settings"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-negative-keywords-truth",
+    "created": "2026-09-28",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "title": "Negative keywords: what nobody tells you",
+    "story": "Everyone knows negatives block junk searches. Almost nobody manages them like the targeting layer they actually are — and shared negative lists quietly rot accounts.",
+    "source": null,
+    "angle": "Negatives aren't cleanup, they're sculpting: they decide which of your campaigns gets each search. I don't use shared lists at all — a negative added at the list level months ago becomes invisible, and one day it's silently blocking your best query. Place every negative where you can see it.",
+    "beats": [
+      "negatives don't just block junk — they route traffic between campaigns",
+      "brand negatives on non-brand campaigns: the split everyone skips",
+      "shared lists = negatives nobody remembers, blocking queries nobody checks",
+      "my rule: campaign or ad-group level only, where they're visible",
+      "audit: pull your negatives and find the one strangling a winner"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "thesis-filtered-bullshit",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "tracking",
+    "title": "Most marketing advice is filtered-out bullshit",
+    "story": "Everyone's rushing into digital marketing because it's 'the trackable one'. Then you get inside real accounts and find attribution is a mess, and the advice out there is three articles saying the same recycled thing.",
+    "source": null,
+    "angle": "This is the opener and the whole positioning: digital marketing is sold as trackable, and the honest truth is you can't track shit as cleanly as they tell you. Nobody's giving real feedback from real accounts. I run them every day — I'll just show you what I'm actually seeing and testing.",
+    "beats": [
+      "everyone's piling into digital marketing because supposedly you can track everything",
+      "honest truth: attribution is a mess — you can't track shit as cleanly as they claim",
+      "the advice out there is three articles saying the same recycled thing",
+      "nobody gives you real feedback from real accounts — that's the actual gap",
+      "I'm not selling a course — I'm just going to show you what I'm running and testing"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-marketer-considerations",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "title": "What a marketer actually has to consider",
+    "story": "The thing I teach every new person on my team: marketing decisions are never one-variable. Budget, platform climate, audience, creative, tracking, timing — you're weighing all of it at once, and the gurus sell you one lever.",
+    "source": null,
+    "angle": "Every 'one weird trick' video is lying by omission. Real marketing is holding ten factors in your head and making a judgment call. That's the skill nobody teaches — so I'm going to show the considerations behind real decisions, not just the decisions.",
+    "beats": [
+      "every guru sells you ONE lever — real decisions weigh ten at once",
+      "budget, platform, audience, creative, tracking, timing — all at the same time",
+      "this is the first thing I teach new people: consider the factors, not the hack",
+      "the decision is easy once the considerations are honest",
+      "I'll show you the thinking behind the call, not just the call"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-pmax",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "pmax",
+    "title": "The PMax issues I keep walking into",
+    "story": "Account after account, the same PMax problems: brand traffic claimed as wins, lazy assets, broken conversion signals feeding the machine, and zero exclusions set.",
+    "source": null,
+    "angle": "PMax doesn't fail loudly — it fails profitably-looking. The report says it's your best campaign while it quietly eats your brand traffic and optimises to a broken signal. Here's what I actually check before I believe a PMax number.",
+    "beats": [
+      "PMax never looks broken — that's the problem",
+      "first check: how much of the 'win' is your own brand name",
+      "second: what conversion signal is it actually feeding on — is that signal even real?",
+      "third: the assets — most accounts give the machine scraps and expect magic",
+      "fourth: exclusions — nobody sets them, so it buys junk placements with your money"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-ai-max",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "ai-max",
+    "title": "AI Max: how people are building them wrong",
+    "story": "AI Max hands Google even more of the wheel than PMax did — and people are switching it on the same way they switch on everything: no guardrails, no ceilings, no checking what it actually matches to.",
+    "source": null,
+    "angle": "AI Max isn't set-and-forget, it's set-and-watch-it-spend. I've watched it sail past CPC ceilings and match to searches no human would approve. The issue isn't the product — it's people turning on maximum automation with minimum supervision.",
+    "beats": [
+      "AI Max gives Google MORE of the wheel — and people add LESS supervision",
+      "I've watched it blow straight past the CPC a client could actually afford",
+      "check your search terms after a week — some matches no human would approve",
+      "guardrails first: ceilings, exclusions, and a real conversion signal",
+      "automation with no supervision isn't a strategy, it's a donation"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-search-campaigns",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "title": "Search campaign issues I see every week",
+    "story": "Open ten Search accounts and you'll find the same sins in eight: mushy structure, broad match on everything, ad copy that ignores the search, and intent treated like an afterthought.",
+    "source": null,
+    "angle": "Search campaigns fail in boring ways, not exotic ones. The structure doesn't match how people actually search, the match types are set to 'whatever Google suggested', and the ad says something the searcher never asked about. Boring problems, massive money.",
+    "beats": [
+      "eight out of ten Search accounts: same boring sins",
+      "structure that doesn't match how people actually search",
+      "broad match everywhere because Google 'recommended' it",
+      "the ad copy answers a question the searcher never asked",
+      "fix the boring stuff before you touch anything clever"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-skags-vs-stags",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "title": "SKAGs vs STAGs — everyone says SKAGs are dead",
+    "story": "The industry declared single-keyword ad groups dead years ago and moved to themes. On my real accounts, tight control is still the default — and the theme-everything crowd is repeating a blog post, not a test.",
+    "source": null,
+    "angle": "SKAG as default, STAG as the exception — that's my actual stance from actual accounts, and it's the opposite of what every recycled article says. The point isn't the acronym, it's control: knowing exactly which search triggered which ad. Loosen only when the data says you can.",
+    "beats": [
+      "everyone says SKAGs are dead — everyone's quoting the same blog post",
+      "my default on real accounts is still tight control: SKAG first",
+      "the win is knowing exactly which search triggered which ad",
+      "STAG is the exception I earn my way into, not the starting point",
+      "test it on your account — don't take the industry's word, or mine"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-reporting",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "tracking",
+    "title": "Reporting issues: dashboards nobody can act on",
+    "story": "Clients get sent walls of impressions, clicks and vanity charts every month — and still can't answer the only question that matters: what did the money do?",
+    "source": null,
+    "angle": "Most reports exist to look like work, not to drive a decision. If a report doesn't define what a conversion IS, show what it cost, and say what changes next month, it's decoration. I'd rather send three numbers and one decision than twelve pages of charts.",
+    "beats": [
+      "walls of impressions and clicks — and the client still can't answer 'what did the money do?'",
+      "most reports exist to look like work, not to make a decision",
+      "step one: define what a conversion actually IS for this business",
+      "a real report: what it cost, what it made, what changes next month",
+      "three numbers and a decision beats twelve pages of charts"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-analysing-analytics",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "tracking",
+    "title": "You have analytics — you just can't read them",
+    "story": "GA4 is sitting there full of answers and most people open it, stare at the home screen, and close it. Having data and being able to interrogate it are different skills.",
+    "source": null,
+    "angle": "The gap isn't access to data, it's knowing which question to ask it. Nobody teaches you to start from a business question and work backwards to the report. So people quote whatever number the default screen shows — which is usually the least useful one in the building.",
+    "beats": [
+      "GA4 is full of answers — most people only ever see the home screen",
+      "the skill isn't having data, it's asking it a real question",
+      "start from the business question, work BACKWARDS to the report",
+      "the default screen shows you the least useful numbers in the building",
+      "one worked example beats every GA4 course — so let me show you one"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-keyword-research",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "title": "Keyword research issues: volume worship",
+    "story": "People pull a keyword tool, sort by volume, take the top twenty and call it research. Then they wonder why the traffic doesn't buy anything.",
+    "source": null,
+    "angle": "Volume is the least interesting column in the sheet. Intent is the game: what is this person actually trying to do, and are they trying to BUY? A hundred searches with buying intent beats ten thousand lookers every single month.",
+    "beats": [
+      "sort by volume, take the top 20 — that's not research, that's a download",
+      "volume is the least interesting column in your sheet",
+      "the real question per keyword: what is this person trying to DO?",
+      "a hundred buyers beat ten thousand lookers — every month",
+      "your search terms report is better research than any tool — it's what people actually typed"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-parameters",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "tracking",
+    "title": "Nobody checks their parameters",
+    "story": "UTMs, tracking templates, URL parameters — the plumbing that tells you where results came from. Set once by someone who left, never audited, quietly wrong for years.",
+    "source": null,
+    "angle": "Your attribution is only as honest as your parameters, and almost nobody ever looks at them. One broken tracking template and a whole channel reports as 'direct'. It's the least sexy audit in marketing and one of the highest-value ones.",
+    "beats": [
+      "UTMs and tracking templates: set once, by someone who left, never checked again",
+      "one broken template and a whole channel shows up as 'direct'",
+      "your attribution is only as honest as your parameters",
+      "audit takes an hour — most accounts have never had one",
+      "if you can't trust the source column, you can't trust any decision built on it"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-microsoft-vs-google-ads",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "microsoft-ads",
+    "title": "Microsoft Ads: the channel everyone forgot",
+    "story": "Everyone fights over Google CPCs while Microsoft Ads sits there with cheaper clicks, an older and often wealthier audience, and import tools that take an afternoon.",
+    "source": null,
+    "angle": "Microsoft Ads isn't a Google replacement, it's the cheap second serving of the same demand. Import your proven Google campaigns, fix the quirks the import gets wrong, and you've bought the same searches at a discount. Most advertisers never bother — which is exactly why it works.",
+    "beats": [
+      "everyone fights over Google CPCs — Bing's sitting right there, cheaper",
+      "same searches, older audience, often more money",
+      "import your PROVEN Google campaigns — don't rebuild from scratch",
+      "but check the import: it quietly gets things wrong, and the docs won't warn you",
+      "it works precisely because nobody bothers — thin competition is free margin"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-feed-attributes",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEM",
+    "subject": "feeds",
+    "title": "Catalogues and product attributes: the part everyone skips",
+    "story": "Stores sync their catalogue once, let the platform fill in defaults, and never look again. Meanwhile titles, product types, categories and attributes are each doing separate jobs — badly.",
+    "source": null,
+    "angle": "Every attribute in your feed is a separate dial, not a duplicate: the title targets searches, product type structures your campaigns, the Google category tells the algorithm what the thing IS, brand and MPN match you to demand. Treat them as one blob and every dial is set to 'default'.",
+    "beats": [
+      "synced the catalogue once, never looked again — sound familiar?",
+      "title, product type, category, brand: four different jobs, not one blob",
+      "your title is doing your keyword targeting whether you wrote it or not",
+      "product type is YOUR structure — the campaign splits come from here",
+      "an afternoon in your attributes outperforms months of bid tweaking"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-invisible-online",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEO",
+    "subject": "visibility",
+    "title": "A lot of businesses are just invisible online",
+    "story": "Real businesses, good products, actual customers — and if you search for what they sell, they're nowhere. Not page two. Nowhere.",
+    "source": null,
+    "angle": "Invisibility isn't one problem, it's a stack of small neglects: no content, no profiles, no reviews, a site that doesn't say what you do. The good news is each one is fixable. The bad news is you can't fix what you've never audited — most owners have no idea they're invisible.",
+    "beats": [
+      "search for what you sell right now — are you anywhere?",
+      "invisibility isn't one problem, it's a stack of small neglects",
+      "no content, no profiles, no reviews, a site that doesn't say what you do",
+      "your competitors aren't better — they're just findable",
+      "the audit takes ten minutes and most owners have never done it"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-lack-of-content",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEO",
+    "subject": "content",
+    "title": "Your site has nothing for Google to rank",
+    "story": "Five-page websites asking why they don't rank. There's no mystery: you've given the search engine five pages of thin text and expected it to pick you over sites answering a hundred real questions.",
+    "source": null,
+    "angle": "Rankings aren't withheld from you, they're unearned. Every question your customers ask is a page you haven't written. You don't need clever SEO — you need to actually say things. Volume of genuine answers beats optimisation of nothing.",
+    "beats": [
+      "five thin pages, and you're asking why you don't rank",
+      "every question your customers ask you is a page you haven't written",
+      "Google can't rank what you never said",
+      "list the last ten questions clients asked you — that's your content calendar",
+      "you don't need clever SEO, you need to actually say things"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-lack-of-pr",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEO",
+    "subject": "pr",
+    "title": "Nobody's talking about you — and Google notices",
+    "story": "You can have the best on-page SEO in your niche and still lose to a competitor who gets mentioned, linked and referenced across the web — because authority comes from outside your site.",
+    "source": null,
+    "angle": "PR isn't a luxury add-on to SEO, it's half the algorithm. Links and mentions are votes, and most small businesses have never earned a single one on purpose. You don't need a PR agency — you need to give people one reason to reference you.",
+    "beats": [
+      "best on-page SEO in your niche — still losing. Why? Nobody mentions you",
+      "links and mentions are votes, and you've never campaigned for one",
+      "half the algorithm lives OFF your website",
+      "one data point, one strong opinion, one local story — that's PR fuel",
+      "you don't need an agency, you need a reason to be referenced"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-site-structure",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEO",
+    "subject": "site-structure",
+    "title": "Your website's structure is fighting your SEO",
+    "story": "Services buried four clicks deep, categories that mirror internal org charts instead of how customers think, orphan pages nothing links to. The content exists — the structure hides it.",
+    "source": null,
+    "angle": "Structure is the silent killer: Google discovers and values pages through your site's own links, and most sites are built around how the business thinks, not how customers search. If a page matters, the structure has to SAY it matters.",
+    "beats": [
+      "your best page is four clicks deep — so Google agrees it doesn't matter",
+      "sites get built around org charts, not around how customers search",
+      "orphan pages: content that exists but nothing links to",
+      "if a page matters, your structure has to say it matters",
+      "draw your site as a tree — if you can't, neither can Google"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-explaining-your-product",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEO",
+    "subject": "content",
+    "title": "You can't explain what you actually sell",
+    "story": "Open most business websites and try to answer: what do they do, for whom, and why them? Paragraphs of 'solutions' and 'excellence' — and no answer a customer could repeat back.",
+    "source": null,
+    "angle": "This kills rankings AND conversions in one shot: if your pages don't say plainly what you do, Google can't match you to searches and visitors can't match you to their problem. The fix isn't copywriting tricks — it's having the guts to be plain.",
+    "beats": [
+      "read your own homepage: what do you do, for whom, why you? Can't tell? Neither can anyone else",
+      "'solutions' and 'excellence' aren't answers — they're filler",
+      "if Google can't tell what you do, it can't rank you for it",
+      "if a visitor can't tell, they can't buy",
+      "the fix is plainness, not cleverness — say the thing"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-social-proof",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEO",
+    "subject": "visibility",
+    "title": "No reviews, no reputation, no chance",
+    "story": "Two businesses, same service, same price. One has 180 reviews, one has 4. There is no marketing budget that beats that gap — and the losing business usually never asked a single customer for a review.",
+    "source": null,
+    "angle": "Social proof isn't vanity, it's the tiebreaker in every comparison a customer makes — and reviews feed local rankings on top of it. The brutal part: your happiest customers would leave reviews, you just never built the two-minute habit of asking.",
+    "beats": [
+      "180 reviews vs 4 — no ad budget beats that gap",
+      "reviews are the tiebreaker in every comparison you'll never see happen",
+      "they feed your local rankings too — proof and visibility in one",
+      "your happiest customers WOULD review you — you just don't ask",
+      "build the ask into the moment the customer is thanking you"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-page-titles",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEO",
+    "subject": "page-titles",
+    "title": "Page titles: the highest-value text nobody writes",
+    "story": "'Home | Company Name'. That's the title on half the web — the one line Google weighs heaviest and shows in every search result, left as a default.",
+    "source": null,
+    "angle": "A page title is your ranking signal AND your ad copy in the results, and most sites burn it on their own name. One line, two jobs, massive leverage — and it's also fragile: lose your titles in a site change and your rankings walk out the door with them.",
+    "beats": [
+      "'Home | Company Name' — the most valuable line on your site, wasted",
+      "the title is a ranking signal AND your ad in the search results — two jobs, one line",
+      "lead with what the page answers, not with who you are",
+      "and back them up: titles can vanish in one bad site update — I've watched it happen",
+      "rewrite ten titles this week and watch what moves"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-local-profiles",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEO",
+    "subject": "local-profiles",
+    "title": "Google Maps, Bing Places, Apple Maps: free visibility nobody claims",
+    "story": "Customers are searching on maps apps every day — Google Maps, Apple Maps, Bing Places — and huge numbers of businesses have never claimed, completed or updated a single profile.",
+    "source": null,
+    "angle": "These profiles are free, they rank in searches your website never will, and they're often the FIRST thing a customer sees about you. An hour of setup across the big three beats months of SEO for local intent — and almost nobody does all three.",
+    "beats": [
+      "people search on maps apps all day — are you even ON them?",
+      "Google Business Profile, Bing Places, Apple Maps: free, and most do none properly",
+      "your profile often shows up BEFORE your website does",
+      "complete beats claimed: photos, services, hours, posts, answers",
+      "one hour across all three — months of local SEO value, zero rand"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-search-console-vs-webmaster",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEO",
+    "subject": "search-console",
+    "title": "Search Console and Webmaster Tools: the free data you ignore",
+    "story": "Google Search Console and Bing Webmaster Tools show you the actual searches you appear for, where you rank, and what's broken — straight from the engines themselves. Free. Mostly unopened.",
+    "source": null,
+    "angle": "People pay for rank trackers while the search engines hand them the real data for nothing. These two tools are your organic ground truth — and the first place I look on any new site, because they tell you what Google and Microsoft actually think of you, not what a third-party tool estimates.",
+    "beats": [
+      "the search engines TELL you how they see your site — for free — and you've never looked",
+      "real queries, real positions, real errors — not third-party estimates",
+      "Search Console for Google, Webmaster Tools for Bing — set up both, it's an afternoon",
+      "first thing I open on any new site, before any audit tool",
+      "if your clicks and your analytics disagree, this is where you find out why"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-seo-includes-ai-now",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SEO",
+    "subject": "visibility",
+    "title": "SEO isn't just Google anymore — AI answers are the new page one",
+    "story": "People are asking ChatGPT, Gemini and AI Overviews the questions they used to type into Google. If the AI doesn't know you exist, you're invisible in the fastest-growing search surface there is.",
+    "source": null,
+    "angle": "SEO now means being the answer in three places: Google, Microsoft, and the AI layer on top of both. The inputs barely changed — clear content, real authority, being referenced — but the stakes did: AI gives ONE answer, not ten blue links. Second place used to get clicks. Now it gets nothing.",
+    "beats": [
+      "your customers are already asking AI instead of Googling",
+      "AI gives ONE answer — there's no page one to sneak onto",
+      "the AI learns who you are from the same places Google does: content, mentions, authority",
+      "being referenced beats being optimised in this game",
+      "ask ChatGPT about your industry in your city — see who it names. That's the new ranking check"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-audience-myth",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SMA",
+    "subject": "targeting",
+    "title": "\"My audience isn't on that platform\" is a myth",
+    "story": "Every business owner has a platform they've written off: 'our people aren't on TikTok'. The honest truth? Your audience is there — you just don't know how to talk to them yet, and you haven't gotten good at it.",
+    "source": null,
+    "angle": "This one's personal: we were the same. We used to post shit about being 'SEO experts' and wonder why nobody cared. The audience was never missing — the way we talked to them was. Now I can sit down and show you what I've actually done to get rankings higher, and THAT people watch.",
+    "beats": [
+      "'my audience isn't on that platform' — no bro, they're there",
+      "you just haven't gotten good at talking to them yet — that's the honest truth",
+      "we were the same: posting 'we're SEO experts' and wondering why nobody cared",
+      "the shift: stop claiming expertise, start SHOWING the work",
+      "the platform was never the problem — the conversation was"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-personas-demographics",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SMA",
+    "subject": "targeting",
+    "title": "You don't actually know who you're targeting",
+    "story": "Ask a business who their customer is and you get 'everyone 25 to 54'. That's not a persona, that's a census. Then the ads talk to everyone and land with no one.",
+    "source": null,
+    "angle": "Targeting isn't a settings panel, it's knowing a real person: what they're worried about, what they'd type, what makes them stop scrolling. Get the person right and the platform settings almost write themselves. Get it wrong and no amount of audience stacking saves you.",
+    "beats": [
+      "'everyone 25 to 54' is a census, not a customer",
+      "a real persona: what they worry about, what they'd type, what stops their scroll",
+      "the ad that talks to everyone lands with no one",
+      "get the person right and the targeting settings write themselves",
+      "describe your last actual customer — THAT's who you're targeting"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-hooks-and-volume",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SMA",
+    "subject": "meta",
+    "title": "Not enough hooks, not enough content — that's the whole diagnosis",
+    "story": "Brands post twice a month, reuse one angle, and conclude 'social doesn't work for us'. The platforms are volume games with a three-second attention toll at the door — and most brands pay neither.",
+    "source": null,
+    "angle": "You don't have a content problem, you have a volume and hooks problem. One idea should become ten pieces with ten different front doors. The first three seconds decide everything, and most brands spend their effort on the part of the video nobody reaches.",
+    "beats": [
+      "posting twice a month and concluding 'social doesn't work' — come on",
+      "it's a volume game with a three-second toll at the door",
+      "one idea = ten pieces with ten different hooks, not one post",
+      "the first three seconds decide everything — spend your effort THERE",
+      "most brands polish the ending nobody ever reaches"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-organic-content-drought",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SMA",
+    "subject": "meta",
+    "title": "All ads, no organic: why your socials feel dead",
+    "story": "Brands run paid into profiles that haven't posted anything real in months. The customer clicks through, sees a ghost town with a logo, and bounces.",
+    "source": null,
+    "angle": "Organic content is the landing page of your paid social — people check who you ARE before they buy. A feed with no life undoes the ad that brought them. You don't need viral, you need alive: real work, real faces, real answers, consistently.",
+    "beats": [
+      "running ads into a profile that's a ghost town with a logo",
+      "people check who you ARE before they buy — your feed is the landing page",
+      "dead organic undoes every rand of paid",
+      "you don't need viral, you need ALIVE: real work, real faces, consistently",
+      "the ad gets the click — the feed closes or kills the sale"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-advantage-plus",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SMA",
+    "subject": "advantage-plus",
+    "title": "Advantage+: when to use it, when to run",
+    "story": "Meta's Advantage+ hands targeting, placements and budget to the algorithm. Sometimes that's exactly right. Sometimes it's how you spend a month's budget finding out your pixel data was garbage.",
+    "source": null,
+    "angle": "Advantage+ amplifies whatever signal you feed it. Strong pixel, clean conversions, broad appeal product? Let it run. Thin data, niche audience, or a conversion event that doesn't mean money? You just gave the wheel to a driver reading the wrong map. The tool isn't good or bad — your signal is.",
+    "beats": [
+      "Advantage+ isn't magic — it's an amplifier for whatever signal you feed it",
+      "strong pixel + clean conversions + broad product = let it run",
+      "thin data or a niche audience = you handed the wheel to a blind driver",
+      "check what conversion event it's optimising to — does that event mean MONEY?",
+      "the tool is neither good nor bad. Your signal is"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-social-tracking",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SMA",
+    "subject": "parameters",
+    "title": "Social tracking: flying blind and calling it strategy",
+    "story": "Pixels half-installed, conversion events that fire on page views, no UTMs on anything — and then big conclusions get drawn about 'what works on social'.",
+    "source": null,
+    "angle": "Social attribution is already the hardest in marketing — iOS took a bite, platforms over-claim, journeys cross devices. Walking in with broken plumbing on top of that means every conclusion you draw is fiction. Fix the pixel, define the events, tag the links — THEN have opinions.",
+    "beats": [
+      "half a pixel, no UTMs — and big confident conclusions about 'what works'",
+      "social attribution is already the hardest game — iOS bit it, platforms over-claim",
+      "your conversion event fires on a page view and you're calling it ROAS",
+      "fix the plumbing first: pixel, events that mean money, tagged links",
+      "until then your social strategy is fan fiction"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-ai-reliance-content",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "SMA",
+    "subject": "meta",
+    "title": "Relying on AI too much: the soulless feed problem",
+    "story": "You can smell an all-AI feed from a mile away: generic hooks, stock sentiment, nothing a real person would say. Brands are automating the exact thing that was supposed to make them human.",
+    "source": null,
+    "angle": "I use AI all day — for systems, research, drafts, speed. But the moment the POINT of the content is you, outsourcing the voice kills the asset. AI should multiply your take, not replace it. If the idea isn't yours, the volume just scales the emptiness.",
+    "beats": [
+      "you can smell an all-AI feed from a mile away",
+      "I use AI all day — this isn't anti-AI, it's anti-empty",
+      "AI multiplies your take — it can't BE the take",
+      "automate the production, never the opinion",
+      "if the idea isn't yours, volume just scales the emptiness"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-no-skills-no-plugins",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "AI",
+    "subject": "skills",
+    "title": "Raw chat is the weakest way to use AI",
+    "story": "Most marketers' AI usage is typing into a chat box and copy-pasting the answer out. No skills, no plugins, no saved instructions — every session starts from zero and produces one-off output.",
+    "source": null,
+    "angle": "The gap between AI dabblers and AI operators isn't prompting talent, it's infrastructure: skills that package your way of doing a task, plugins that connect your actual tools, instructions that persist. Raw chat is a demo. The setup is the product.",
+    "beats": [
+      "typing into a chat box and copy-pasting out — that's a demo, not a system",
+      "every session starts from zero because you gave it nothing to stand on",
+      "skills = your way of doing a task, packaged and repeatable",
+      "plugins and connections = AI working your actual tools",
+      "the operators aren't better prompters — they're better builders"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-workflows",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "AI",
+    "subject": "workflows",
+    "title": "Nobody builds AI into their workflows — the biggest thing",
+    "story": "People 'use AI' as a side quest: open a chat, ask a thing, go back to the real work. The real unlock is the opposite — the AI living INSIDE the workflow: briefs in, drafts out, reports built, checks run, every day, automatically.",
+    "source": null,
+    "angle": "This is the biggest gap I see, honestly. A tool you visit changes nothing; a workflow you rebuilt around AI changes the economics of your whole job. The question isn't 'what can AI do' — it's 'which of my repeating processes should it be welded into first?'",
+    "beats": [
+      "most people use AI as a side quest next to the real work",
+      "the unlock: AI living INSIDE the workflow, not next to it",
+      "a tool you visit changes nothing — a rebuilt workflow changes your economics",
+      "pick ONE repeating process and weld AI into it end-to-end",
+      "that's the biggest thing, honestly — everything else is toys until this"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-little-jobs",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "AI",
+    "subject": "jobs",
+    "title": "The little jobs: what automation actually takes",
+    "story": "Everyone wants the big automation. Nobody respects the little jobs: the scheduled script, the daily check, the alert when something breaks. And nobody warns you how much care each one takes to keep honest.",
+    "source": null,
+    "angle": "A job that runs isn't a job that works. Set-and-forget is a lie — it's set-and-VERIFY, forever. The unglamorous truth of automation is that every little job needs a heartbeat, a failure alert, and someone who notices when it's quietly wrong. That's the price, and it's worth paying — knowingly.",
+    "beats": [
+      "everyone wants the big automation — nobody respects the little jobs",
+      "a job that RUNS is not a job that WORKS",
+      "set-and-forget is a lie; it's set-and-verify, forever",
+      "every job needs a heartbeat and an alarm for when it's quietly wrong",
+      "the little jobs take more care than you think — budget for it"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-verify-your-ai",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "AI",
+    "subject": "vibe-coding",
+    "title": "You can't verify what the AI built — and that's the real risk",
+    "story": "Marketers are shipping AI-written code and AI-made API calls they can't read, into accounts that spend real money. Not understanding what you're building isn't a style choice — it's the risk itself.",
+    "source": null,
+    "angle": "You don't have to become a developer, but you can't skip verification. My rule set: never trust 'done' without proof, read back what actually changed, test on something that can't hurt you first. The AI writes; you verify. Lose that second half and you're not building, you're gambling.",
+    "beats": [
+      "shipping code you can't read into accounts that spend real money",
+      "you don't need to become a dev — you need to become a verifier",
+      "never accept 'done' without proof — make it SHOW you",
+      "read back what actually changed; test where it can't hurt you",
+      "the AI writes, you verify — lose that half and you're gambling"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-working-apis",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "AI",
+    "subject": "apis",
+    "title": "APIs: the skill marketers keep dodging",
+    "story": "Every platform you use has a door for programs — the API. Marketers treat it as dev territory, so they stay trapped in dashboards, exports and copy-paste while the data they need sits one authenticated call away.",
+    "source": null,
+    "angle": "An API is just a waiter: you ask in the right format, it brings the dish. With AI writing the requests, 'I'm not technical' stopped being a reason years ago. And the flip side matters too — some tools have NO API, and that should now be a real factor in what you buy.",
+    "beats": [
+      "the API is just a waiter: ask right, get the dish",
+      "marketers stay trapped in dashboards while the data sits one call away",
+      "with AI writing the requests, 'I'm not technical' is an excuse from 2020",
+      "start read-only: pull your own numbers before you ever write anything",
+      "and check before you buy a tool: no API means no future automation — that's a dealbreaker now"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-ai-plumbing",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "AI",
+    "subject": "retrieval",
+    "title": "File management, retrieval, caching: the AI plumbing nobody shows",
+    "story": "AI influencers show the magic moment. Nobody shows the plumbing that made it work: where files live, how the AI finds the right one, how you stop it re-processing the same thing, how duplicates get killed.",
+    "source": null,
+    "angle": "The boring stuff IS the system. My AI setup works because of decisions nobody makes videos about: one place per kind of file, retrieval that narrows in stages instead of dumping everything, caching so expensive work never runs twice, dedup so the truth exists once. Get the plumbing right and the magic gets reliable.",
+    "beats": [
+      "influencers show the magic — nobody shows the plumbing that made it work",
+      "where do files LIVE? how does the AI find the right one? — answer that first",
+      "retrieval that narrows in stages beats dumping everything into the prompt",
+      "cache expensive work — never pay for the same processing twice",
+      "boring decisions, reliable magic — that's the actual trade"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "evergreen-feature-firehose",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "AI",
+    "subject": "skills",
+    "title": "The AI feature firehose — what actually matters for marketers",
+    "story": "Claude, Gemini, Codex, the local models — every week something ships: agents talking to agents, computer use, bigger memories, new skills. Most marketers hear the noise and absorb none of it.",
+    "source": null,
+    "angle": "You don't need to track AI news — you need someone to translate it. My filter is one question: does this feature remove a human step from a real marketing workflow? Bots talking to bots sounds like sci-fi until you realise it means your reporting agent can brief your writing agent. That's an employee chain, not a headline.",
+    "beats": [
+      "every week a new AI feature — most marketers absorb none of it",
+      "my filter: does this remove a human step from a REAL workflow?",
+      "agents talking to agents = your reporting bot briefing your writing bot",
+      "that's an employee chain, not a sci-fi headline",
+      "I'll keep translating the firehose into 'here's what it means for us'"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "build-how-we-use-ai",
+    "created": "2026-10-07",
+    "type": "build",
+    "pillar": "AI",
+    "subject": "workflows",
+    "title": "Everywhere we actually use AI in the agency",
+    "story": "Not hypotheticals — the live list: content writing, posting, reporting, creative production, internal systems, client workflows. A working map of where AI earns its keep in a real agency, and where it doesn't.",
+    "source": null,
+    "angle": "I'm not the AI expert and I'm not trying to be — I'm the marketer who wired it into a real agency and kept what worked. This is the honest tour: where it saves hours, where it needs babysitting, and where we pulled it out because humans were just better.",
+    "beats": [
+      "not the AI expert — the marketer who wired it in and kept what worked",
+      "the live list: writing, posting, reporting, creation, systems, workflows",
+      "where it saves hours without asking twice",
+      "where it still needs a babysitter",
+      "and where we pulled it OUT — because that's honest too"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  },
+  {
+    "id": "issues-jargon-barrier",
+    "created": "2026-10-07",
+    "type": "evergreen",
+    "pillar": "AI",
+    "subject": "vibe-coding",
+    "title": "The jargon is the gatekeeper",
+    "story": "Endpoints, tokens, repos, webhooks, embeddings — marketers bounce off AI and automation not because the concepts are hard, but because every explanation assumes you already speak developer.",
+    "source": null,
+    "angle": "Every piece of jargon is a simple idea wearing a bouncer's jacket. A webhook is 'call me when something happens'. A repo is 'a folder with a memory'. I learned this stack as a marketer, from zero — so I'll translate it the way I wish someone had for me, one term at a time.",
+    "beats": [
+      "the concepts are easy — the vocabulary is the bouncer",
+      "a webhook is just 'call me when something happens'",
+      "a repo is a folder with a memory; a token is a key card",
+      "nobody translated this stuff for marketers, so I will",
+      "learn ten terms and half the AI world stops being scary"
+    ],
+    "status": "fresh",
+    "platforms": [
+      "tiktok",
+      "linkedin",
+      "meta"
+    ]
+  }
+]

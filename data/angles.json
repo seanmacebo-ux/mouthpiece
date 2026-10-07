@@ -1,0 +1,362 @@
+[
+  {
+    "id": "angle-pmax-brand-share",
+    "pillar": "SEM",
+    "subject": "pmax",
+    "stance": "PMax isn't a campaign, it's a deal — and when it 'works amazing', check how much of the win was just your own brand name.",
+    "status": "agreed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-negatives-sculpt",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "stance": "Negatives aren't cleanup, they're sculpting. Campaign or ad-group level only — shared lists are negatives nobody remembers, blocking queries nobody checks.",
+    "status": "agreed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-feed-is-the-campaign",
+    "pillar": "SEM",
+    "subject": "merchant-centre",
+    "stance": "Everyone blames the campaign when Shopping underperforms, but the feed IS the campaign. One hour in the feed beats ten in campaign settings.",
+    "status": "agreed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-tracking-is-a-hope",
+    "pillar": "SEM",
+    "subject": "tracking",
+    "stance": "If you didn't SEE a test conversion land in the platform, your tracking is not live — it's a hope. Smart Bidding on broken tracking is a slot machine.",
+    "status": "agreed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-ai-memory-compounds",
+    "pillar": "AI",
+    "subject": "file-management",
+    "stance": "Devs show off tools marketers can't use; marketers share prompts that don't compound. Give the AI memory — per-client state, decisions, lessons — or start from zero every day.",
+    "status": "agreed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-specify-and-verify",
+    "pillar": "AI",
+    "subject": "vibe-coding",
+    "stance": "You don't need to learn to code — you need to learn to specify and verify. Never let the AI say 'done' without proof.",
+    "status": "agreed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-scars-are-curriculum",
+    "pillar": "SEO",
+    "subject": "content",
+    "stance": "Logging mistakes feels like admitting failure, so nobody does it — which is exactly why doing it is an advantage. The scars become the curriculum.",
+    "status": "agreed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-thesis-filtered-bullshit",
+    "pillar": "SEM",
+    "subject": "tracking",
+    "stance": "This is the opener and the whole positioning: digital marketing is sold as trackable, and the honest truth is you can't track shit as cleanly as they tell you. Nobody's giving real feedback from real accounts. I run them every day — I'll just show you what I'm actually seeing and testing.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-evergreen-marketer-considerations",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "stance": "Every 'one weird trick' video is lying by omission. Real marketing is holding ten factors in your head and making a judgment call. That's the skill nobody teaches — so I'm going to show the considerations behind real decisions, not just the decisions.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-pmax",
+    "pillar": "SEM",
+    "subject": "pmax",
+    "stance": "PMax doesn't fail loudly — it fails profitably-looking. The report says it's your best campaign while it quietly eats your brand traffic and optimises to a broken signal. Here's what I actually check before I believe a PMax number.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-ai-max",
+    "pillar": "SEM",
+    "subject": "ai-max",
+    "stance": "AI Max isn't set-and-forget, it's set-and-watch-it-spend. I've watched it sail past CPC ceilings and match to searches no human would approve. The issue isn't the product — it's people turning on maximum automation with minimum supervision.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-search-campaigns",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "stance": "Search campaigns fail in boring ways, not exotic ones. The structure doesn't match how people actually search, the match types are set to 'whatever Google suggested', and the ad says something the searcher never asked about. Boring problems, massive money.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-evergreen-skags-vs-stags",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "stance": "SKAG as default, STAG as the exception — that's my actual stance from actual accounts, and it's the opposite of what every recycled article says. The point isn't the acronym, it's control: knowing exactly which search triggered which ad. Loosen only when the data says you can.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-reporting",
+    "pillar": "SEM",
+    "subject": "tracking",
+    "stance": "Most reports exist to look like work, not to drive a decision. If a report doesn't define what a conversion IS, show what it cost, and say what changes next month, it's decoration. I'd rather send three numbers and one decision than twelve pages of charts.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-analysing-analytics",
+    "pillar": "SEM",
+    "subject": "tracking",
+    "stance": "The gap isn't access to data, it's knowing which question to ask it. Nobody teaches you to start from a business question and work backwards to the report. So people quote whatever number the default screen shows — which is usually the least useful one in the building.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-keyword-research",
+    "pillar": "SEM",
+    "subject": "google-ads",
+    "stance": "Volume is the least interesting column in the sheet. Intent is the game: what is this person actually trying to do, and are they trying to BUY? A hundred searches with buying intent beats ten thousand lookers every single month.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-parameters",
+    "pillar": "SEM",
+    "subject": "tracking",
+    "stance": "Your attribution is only as honest as your parameters, and almost nobody ever looks at them. One broken tracking template and a whole channel reports as 'direct'. It's the least sexy audit in marketing and one of the highest-value ones.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-evergreen-microsoft-vs-google-ads",
+    "pillar": "SEM",
+    "subject": "microsoft-ads",
+    "stance": "Microsoft Ads isn't a Google replacement, it's the cheap second serving of the same demand. Import your proven Google campaigns, fix the quirks the import gets wrong, and you've bought the same searches at a discount. Most advertisers never bother — which is exactly why it works.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-feed-attributes",
+    "pillar": "SEM",
+    "subject": "feeds",
+    "stance": "Every attribute in your feed is a separate dial, not a duplicate: the title targets searches, product type structures your campaigns, the Google category tells the algorithm what the thing IS, brand and MPN match you to demand. Treat them as one blob and every dial is set to 'default'.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-invisible-online",
+    "pillar": "SEO",
+    "subject": "visibility",
+    "stance": "Invisibility isn't one problem, it's a stack of small neglects: no content, no profiles, no reviews, a site that doesn't say what you do. The good news is each one is fixable. The bad news is you can't fix what you've never audited — most owners have no idea they're invisible.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-lack-of-content",
+    "pillar": "SEO",
+    "subject": "content",
+    "stance": "Rankings aren't withheld from you, they're unearned. Every question your customers ask is a page you haven't written. You don't need clever SEO — you need to actually say things. Volume of genuine answers beats optimisation of nothing.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-lack-of-pr",
+    "pillar": "SEO",
+    "subject": "pr",
+    "stance": "PR isn't a luxury add-on to SEO, it's half the algorithm. Links and mentions are votes, and most small businesses have never earned a single one on purpose. You don't need a PR agency — you need to give people one reason to reference you.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-site-structure",
+    "pillar": "SEO",
+    "subject": "site-structure",
+    "stance": "Structure is the silent killer: Google discovers and values pages through your site's own links, and most sites are built around how the business thinks, not how customers search. If a page matters, the structure has to SAY it matters.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-explaining-your-product",
+    "pillar": "SEO",
+    "subject": "content",
+    "stance": "This kills rankings AND conversions in one shot: if your pages don't say plainly what you do, Google can't match you to searches and visitors can't match you to their problem. The fix isn't copywriting tricks — it's having the guts to be plain.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-social-proof",
+    "pillar": "SEO",
+    "subject": "visibility",
+    "stance": "Social proof isn't vanity, it's the tiebreaker in every comparison a customer makes — and reviews feed local rankings on top of it. The brutal part: your happiest customers would leave reviews, you just never built the two-minute habit of asking.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-page-titles",
+    "pillar": "SEO",
+    "subject": "page-titles",
+    "stance": "A page title is your ranking signal AND your ad copy in the results, and most sites burn it on their own name. One line, two jobs, massive leverage — and it's also fragile: lose your titles in a site change and your rankings walk out the door with them.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-evergreen-local-profiles",
+    "pillar": "SEO",
+    "subject": "local-profiles",
+    "stance": "These profiles are free, they rank in searches your website never will, and they're often the FIRST thing a customer sees about you. An hour of setup across the big three beats months of SEO for local intent — and almost nobody does all three.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-evergreen-search-console-vs-webmaster",
+    "pillar": "SEO",
+    "subject": "search-console",
+    "stance": "People pay for rank trackers while the search engines hand them the real data for nothing. These two tools are your organic ground truth — and the first place I look on any new site, because they tell you what Google and Microsoft actually think of you, not what a third-party tool estimates.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-evergreen-seo-includes-ai-now",
+    "pillar": "SEO",
+    "subject": "visibility",
+    "stance": "SEO now means being the answer in three places: Google, Microsoft, and the AI layer on top of both. The inputs barely changed — clear content, real authority, being referenced — but the stakes did: AI gives ONE answer, not ten blue links. Second place used to get clicks. Now it gets nothing.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-audience-myth",
+    "pillar": "SMA",
+    "subject": "targeting",
+    "stance": "This one's personal: we were the same. We used to post shit about being 'SEO experts' and wonder why nobody cared. The audience was never missing — the way we talked to them was. Now I can sit down and show you what I've actually done to get rankings higher, and THAT people watch.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-personas-demographics",
+    "pillar": "SMA",
+    "subject": "targeting",
+    "stance": "Targeting isn't a settings panel, it's knowing a real person: what they're worried about, what they'd type, what makes them stop scrolling. Get the person right and the platform settings almost write themselves. Get it wrong and no amount of audience stacking saves you.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-hooks-and-volume",
+    "pillar": "SMA",
+    "subject": "meta",
+    "stance": "You don't have a content problem, you have a volume and hooks problem. One idea should become ten pieces with ten different front doors. The first three seconds decide everything, and most brands spend their effort on the part of the video nobody reaches.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-organic-content-drought",
+    "pillar": "SMA",
+    "subject": "meta",
+    "stance": "Organic content is the landing page of your paid social — people check who you ARE before they buy. A feed with no life undoes the ad that brought them. You don't need viral, you need alive: real work, real faces, real answers, consistently.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-evergreen-advantage-plus",
+    "pillar": "SMA",
+    "subject": "advantage-plus",
+    "stance": "Advantage+ amplifies whatever signal you feed it. Strong pixel, clean conversions, broad appeal product? Let it run. Thin data, niche audience, or a conversion event that doesn't mean money? You just gave the wheel to a driver reading the wrong map. The tool isn't good or bad — your signal is.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-social-tracking",
+    "pillar": "SMA",
+    "subject": "parameters",
+    "stance": "Social attribution is already the hardest in marketing — iOS took a bite, platforms over-claim, journeys cross devices. Walking in with broken plumbing on top of that means every conclusion you draw is fiction. Fix the pixel, define the events, tag the links — THEN have opinions.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-ai-reliance-content",
+    "pillar": "SMA",
+    "subject": "meta",
+    "stance": "I use AI all day — for systems, research, drafts, speed. But the moment the POINT of the content is you, outsourcing the voice kills the asset. AI should multiply your take, not replace it. If the idea isn't yours, the volume just scales the emptiness.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-no-skills-no-plugins",
+    "pillar": "AI",
+    "subject": "skills",
+    "stance": "The gap between AI dabblers and AI operators isn't prompting talent, it's infrastructure: skills that package your way of doing a task, plugins that connect your actual tools, instructions that persist. Raw chat is a demo. The setup is the product.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-workflows",
+    "pillar": "AI",
+    "subject": "workflows",
+    "stance": "This is the biggest gap I see, honestly. A tool you visit changes nothing; a workflow you rebuilt around AI changes the economics of your whole job. The question isn't 'what can AI do' — it's 'which of my repeating processes should it be welded into first?'",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-little-jobs",
+    "pillar": "AI",
+    "subject": "jobs",
+    "stance": "A job that runs isn't a job that works. Set-and-forget is a lie — it's set-and-VERIFY, forever. The unglamorous truth of automation is that every little job needs a heartbeat, a failure alert, and someone who notices when it's quietly wrong. That's the price, and it's worth paying — knowingly.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-verify-your-ai",
+    "pillar": "AI",
+    "subject": "vibe-coding",
+    "stance": "You don't have to become a developer, but you can't skip verification. My rule set: never trust 'done' without proof, read back what actually changed, test on something that can't hurt you first. The AI writes; you verify. Lose that second half and you're not building, you're gambling.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-working-apis",
+    "pillar": "AI",
+    "subject": "apis",
+    "stance": "An API is just a waiter: you ask in the right format, it brings the dish. With AI writing the requests, 'I'm not technical' stopped being a reason years ago. And the flip side matters too — some tools have NO API, and that should now be a real factor in what you buy.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-ai-plumbing",
+    "pillar": "AI",
+    "subject": "retrieval",
+    "stance": "The boring stuff IS the system. My AI setup works because of decisions nobody makes videos about: one place per kind of file, retrieval that narrows in stages instead of dumping everything, caching so expensive work never runs twice, dedup so the truth exists once. Get the plumbing right and the magic gets reliable.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-evergreen-feature-firehose",
+    "pillar": "AI",
+    "subject": "skills",
+    "stance": "You don't need to track AI news — you need someone to translate it. My filter is one question: does this feature remove a human step from a real marketing workflow? Bots talking to bots sounds like sci-fi until you realise it means your reporting agent can brief your writing agent. That's an employee chain, not a headline.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-build-how-we-use-ai",
+    "pillar": "AI",
+    "subject": "workflows",
+    "stance": "I'm not the AI expert and I'm not trying to be — I'm the marketer who wired it into a real agency and kept what worked. This is the honest tour: where it saves hours, where it needs babysitting, and where we pulled it out because humans were just better.",
+    "status": "proposed",
+    "newsRefs": []
+  },
+  {
+    "id": "angle-issues-jargon-barrier",
+    "pillar": "AI",
+    "subject": "vibe-coding",
+    "stance": "Every piece of jargon is a simple idea wearing a bouncer's jacket. A webhook is 'call me when something happens'. A repo is 'a folder with a memory'. I learned this stack as a marketer, from zero — so I'll translate it the way I wish someone had for me, one term at a time.",
+    "status": "proposed",
+    "newsRefs": []
+  }
+]
