@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mouthpiece looks</title>
+<style>
+  :root { --bg:#0a0a0a; --fg:#f2f2f2; --muted:#a3a3a3; --line:#2a2a2a; --accent:#fff470; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, sans-serif; }
+  main { max-width:430px; margin:0 auto; padding:24px 20px 48px; }
+  h1 { font-size:24px; margin:0 0 6px; }
+  p { color:var(--muted); margin:0 0 24px; }
+  section { border-top:1px solid var(--line); padding:18px 0; }
+  h2 { font-size:18px; margin:0 0 4px; }
+  section p { margin:0 0 12px; font-size:14px; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  a { display:flex; align-items:center; justify-content:center; min-height:48px; border:1px solid var(--line);
+      border-radius:10px; color:var(--fg); text-decoration:none; font-weight:600; }
+  a:active { background:#151515; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Pick a look</h1>
+  <p>Same video card and breakdown, three looks from Open Design's design systems. Open both screens for each, then tell Claude A, B or C.</p>
+
+  <section>
+    <h2>A · Warm Editorial</h2>
+    <p>Magazine reading. Serif headlines, warm paper, one terracotta accent.</p>
+    <div class="row"><a href="a-warm-editorial-card.html">Video card</a><a href="a-warm-editorial-brief.html">Breakdown</a></div>
+  </section>
+
+  <section>
+    <h2>B · The Verge</h2>
+    <p>Dark and loud. Huge condensed headlines, mint + ultraviolet, mono labels.</p>
+    <div class="row"><a href="b-the-verge-card.html">Video card</a><a href="b-the-verge-brief.html">Breakdown</a></div>
+  </section>
+
+  <section>
+    <h2>C · Current look, cleaned up</h2>
+    <p>Your black + yellow, run through Open Design's rules.</p>
+    <div class="row"><a href="c-current-tightened-card.html">Video card</a><a href="c-current-tightened-brief.html">Breakdown</a></div>
+  </section>
+</main>
+</body>
+</html>

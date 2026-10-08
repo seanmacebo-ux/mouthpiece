@@ -1,0 +1,78 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Mouthpiece breakdown c-current-tightened</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box} body{margin:0;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 20px}
+.top small{font-size:13px;opacity:.7}
+main{padding:12px 20px 40px;max-width:430px}
+.back{font-size:13px;opacity:.7;display:block;margin-bottom:10px}
+.kicker{display:flex;gap:10px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin:0 0 14px}
+.fact{margin:0} .fact dt{font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin:0} .fact dd{margin:2px 0 0;font-size:15px;line-height:1.3}
+.fact.wide{grid-column:1/-1}
+.agree{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;line-height:1.35;margin-bottom:6px}
+.agree button{min-height:44px;padding:0 16px;flex:0 0 auto;font-size:14px}
+.syn{margin:0}
+.points{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.point{display:flex;gap:12px;padding:12px 14px;min-height:48px;align-items:flex-start}
+.tick{width:22px;height:22px;flex:0 0 auto;margin-top:1px}
+.lines{list-style:none;margin:0;padding:0}
+.line .k{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.line q{quotes:"\201C" "\201D";display:block;line-height:1.35}
+.empty{padding:12px 14px;font-size:14px;margin:0}
+.fold{display:flex;justify-content:space-between;padding:14px 0;min-height:48px;align-items:center;font-size:14px;font-weight:600}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px}
+.trail{list-style:none;margin:0;padding:0;position:relative}
+.trail li{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:0 0 14px;position:relative}
+.trail .dot{width:12px;height:12px;border-radius:50%;margin:5px 0 0 5px;position:relative;z-index:1}
+.trail .rail{position:absolute;left:10px;top:8px;bottom:8px;width:2px}
+.trail b{display:block;font-size:15px} .trail small{display:block;font-size:12px;opacity:.75}
+.bits{margin:0;padding-left:22px;display:grid;gap:14px} .bits li{line-height:1.55;padding-left:4px}
+.srcs{list-style:none;margin:0;padding:0} .src{padding:12px 0;font-size:15px}
+.src a{display:inline-flex;min-height:36px;align-items:center;font-size:13px;font-weight:600}
+.cta{display:flex;align-items:center;justify-content:center;min-height:52px;margin-top:24px;font-weight:700;text-decoration:none;font-size:15px}
+
+:root{--bg:#0A0A0A;--fg:#F2F2F2;--accent:#FFF470;--second:#F2F2F2;--muted:#A3A3A3;--surface:#151515;--line:#2A2A2A;
+--display:'Oswald',sans-serif;--body:'Archivo',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;--r:12px}
+body{background:var(--bg);color:var(--fg);font-family:var(--body)}
+h1{font-family:var(--display);font-weight:700;font-size:32px;line-height:1.08;text-transform:uppercase;letter-spacing:.01em;margin:6px 0 16px}
+.kicker,.label{font-family:var(--display);text-transform:uppercase;letter-spacing:.1em}
+.kicker{font-size:12px;color:var(--accent)}
+.label{font-size:13px;color:var(--muted);margin:28px 0 10px}
+.facts{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0}
+.fact dt{color:var(--muted)} .fact dd{font-weight:600}
+.agree{border:1px solid var(--accent);border-radius:var(--r);padding:12px 14px;color:var(--fg)}
+.agree button{background:var(--accent);color:#0A0A0A;border:0;border-radius:10px;font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.syn{font-size:18px;line-height:1.55;font-weight:500}
+.point{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.tick{border:2px solid var(--muted);border-radius:6px}
+.line{border-top:1px solid var(--line);padding:14px 0}
+.line .k{color:var(--accent);font-family:var(--display);text-transform:uppercase;letter-spacing:.1em;font-size:12px} .line q{font-size:18px;font-weight:600}
+.fold{border-top:1px solid var(--line)}
+.empty{border:1px dashed var(--line);border-radius:var(--r);color:var(--muted)}
+.bits li::marker{color:var(--accent);font-weight:700}
+.src{border-top:1px solid var(--line)} .src a{color:var(--accent)}
+.badge{color:var(--muted);border:1px solid var(--line);font-family:var(--display);text-transform:uppercase;letter-spacing:.08em}
+.badge.hot{color:#0A0A0A;background:var(--accent);border-color:var(--accent)}
+.trail .dot{background:var(--fg)} .trail .now .dot{background:var(--accent)} .trail .todo .dot{background:transparent;border:1.5px solid var(--muted)}
+.trail .rail{background:var(--line)} .trail .now b{color:var(--accent)}
+.cta{background:var(--accent);color:#0A0A0A;border-radius:10px;font-family:var(--display);text-transform:uppercase;letter-spacing:.06em}
+.top{border-bottom:1px solid var(--line)} .brand{font-family:var(--display);font-weight:700;font-size:22px}
+.brand span{color:var(--accent)}
+</style></head><body>
+<header class="top"><div class="brand">MOUTH<span>PIECE</span></div><small>C · Current look, cleaned up</small></header>
+<main>
+<span class="back">← SEM news</span>
+<div class="kicker"><span>Search Engine Land</span><span>7 Oct</span></div>
+<h1>Google opens Conversion Lift to Search and Performance Max</h1>
+<p class="label">Where this is at</p>
+<ul class="trail"><span class="rail"></span><li class="done"><span class="dot"></span><span><b>Pulled in</b><small>7 Oct · Search Engine Land</small></span></li><li class="done"><span class="dot"></span><span><b>Claude read it</b><small>8 Oct · Google&#x27;s own help page</small></span></li><li class="done"><span class="dot"></span><span><b>Breakdown written</b><small>8 Oct</small></span></li><li class="now"><span class="dot"></span><span><b>Talk it through</b><small>Waiting on you</small></span></li><li class="todo"><span class="dot"></span><span><b>Video</b><small>Claude&#x27;s draft</small></span></li></ul>
+<p class="label">Synopsis</p>
+<p class="syn">Conversion Lift hides your ads from a random slice of people and compares their buying with everyone who saw them. The gap is what the ads actually caused. Press says Search and PMax can now self-serve it. Entry: 1,000 conversions and a $5,000 budget.</p>
+<p class="label">The interesting bits</p>
+<ol class="bits"><li>Google&#x27;s own help page doesn&#x27;t back the headline yet — it still says &#x27;contact your account rep&#x27;.</li><li>Google is admitting attribution isn&#x27;t the truth. You don&#x27;t build a tool to measure what ads caused if the normal numbers already told you.</li><li>The $5k / 1,000-conversion floor shuts out most small accounts. Big spenders get proof; everyone else keeps trusting the dashboard.</li><li>Under 90% certainty it&#x27;s only &#x27;directional&#x27;, and short tests under-measure lift by ~17%.</li></ol>
+<p class="label">What Claude read</p>
+<ul class="srcs"><li class="src"><span class='badge hot'>Official</span> Google Ads Help — Conversion Lift based on users<br><a>Open source →</a></li><li class="src">eCommerce Paradise write-up<br><a>Open source →</a></li><li class="src">Search Engine Land (couldn&#x27;t read directly)<br><a>Open source →</a></li></ul>
+<a class="cta">The video draft →</a>
+</main></body></html>
