@@ -104,7 +104,7 @@ Still on disk, no longer rendered — the angle now lives inside each video card
 
 - `index.html` / `app.js` / `styles.css` — the app, vanilla JS
 - `manifest.webmanifest` + `icon.svg` — installable PWA
-- `sw.js` — service worker: cache-first for the shell, network-first for `data/*.json`
+- `sw.js` — service worker: network-first for everything (latest deploy when online, cached copy offline)
 - `data/cards.json` — the videos (canonical)
 - `data/news.json` — news (harvester writes here; Claude adds briefs)
 - `data/angles.json` — retired from the UI, kept for history

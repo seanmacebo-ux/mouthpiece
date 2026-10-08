@@ -1,7 +1,9 @@
 /* MOUTHPIECE service worker.
-   Shell = cache-first. Data (data/*.json) = network-first with cache fallback. */
+   Everything = network-first with cache fallback. Online you always get the latest
+   deploy; offline you get the last copy. (Cache-first shell meant every update showed
+   the OLD app on the first open after a deploy — changed 2026-10-08.) */
 
-const VERSION = "mouthpiece-v4";
+const VERSION = "mouthpiece-v5";
 const SHELL_CACHE = VERSION + "-shell";
 const DATA_CACHE = VERSION + "-data";
 
@@ -32,28 +34,17 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (event.request.method !== "GET" || url.origin !== location.origin) return;
 
-  if (url.pathname.includes("/data/") && url.pathname.endsWith(".json")) {
-    // network-first: fresh data when online, last-known data when not
-    event.respondWith(
-      fetch(event.request)
-        .then(res => {
-          const copy = res.clone();
-          caches.open(DATA_CACHE).then(cache => cache.put(event.request, copy));
-          return res;
-        })
-        .catch(() => caches.match(event.request))
-    );
-    return;
-  }
-
-  // shell + everything else same-origin: cache-first
+  // network-first for shell AND data: fresh when online, last-known when not
+  const bucket = url.pathname.includes("/data/") ? DATA_CACHE : SHELL_CACHE;
   event.respondWith(
-    caches.match(event.request).then(hit =>
-      hit || fetch(event.request).then(res => {
-        const copy = res.clone();
-        caches.open(SHELL_CACHE).then(cache => cache.put(event.request, copy));
+    fetch(event.request)
+      .then(res => {
+        if (res.ok) {
+          const copy = res.clone();
+          caches.open(bucket).then(cache => cache.put(event.request, copy));
+        }
         return res;
       })
-    )
+      .catch(() => caches.match(event.request, { ignoreSearch: true }))
   );
 });
