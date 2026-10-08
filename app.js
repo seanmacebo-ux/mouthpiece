@@ -1,21 +1,20 @@
 /* MOUTHPIECE — vanilla JS, no build step.
-   Pipeline: Topic (pillar) → News → Angle → Facts → Talking points (cards).
-   Every card moves through stages: idea → researched → ready → recorded (skip = off-ramp).
-   Data = data/cards.json + data/news.json + data/angles.json (canonical)
-   + localStorage overlay (stages, skip, beat ticks, dropped ideas, pillar assignments). */
+   Two things per pillar, nothing else:
+     NEWS   = what happened. Items Claude has read carry a brief (synopsis + the interesting bits + sources).
+     VIDEOS = what Sean says about it. Synopsis → my talking points → your points → things to say → receipts.
+   Data = data/cards.json + data/news.json (canonical)
+   + localStorage overlay (recorded, skip, point ticks, dropped ideas, pillar assignments). */
 
 (() => {
   "use strict";
 
   const LS = {
-    status: "mouthpiece.status.v1", // { cardId: "fresh"|"saved"|"recorded"|"skipped" } — legacy; only "skipped" still matters
+    status: "mouthpiece.status.v1", // { cardId: "fresh"|"skipped"|... } — only "skipped" (and legacy "recorded") still matter
     beats:  "mouthpiece.beats.v1",  // { cardId: [bool, ...] }
     drops:  "mouthpiece.drops.v1",  // [ card, ... ] (type "idea", beats [])
     pillar: "mouthpiece.pillar.v1", // { cardId: "SEM"|"SEO"|"SMA"|"AI" } — assigns a pillar to unfiled drops
-    stage:  "mouthpiece.stage.v1",  // { cardId: "idea"|"researched"|"ready"|"recorded" }
+    stage:  "mouthpiece.stage.v1",  // { cardId: "recorded" } — older stage values are ignored; only recorded matters now
   };
-
-  const STAGES = ["idea", "researched", "ready", "recorded"];
 
   const PILLARS = ["SEM", "SEO", "SMA", "AI"];
   const PILLAR_SUB = {
@@ -24,20 +23,14 @@
     SMA: "Social media ads: Meta, TikTok, LinkedIn",
     AI:  "Skills, jobs, vibe-coding, APIs",
   };
-  // Subject taxonomy per pillar — labels/filters only, kept lightweight.
-  const SUBJECTS = {
-    SEM: ["google-ads", "pmax", "ai-max", "shopping", "merchant-centre", "feeds", "microsoft-ads", "tracking"],
-    SEO: ["content", "pr", "site-structure", "page-titles", "visibility", "local-profiles", "search-console"],
-    SMA: ["meta", "tiktok", "linkedin", "advantage-plus", "targeting", "parameters"],
-    AI:  ["skills", "jobs", "vibe-coding", "apis", "retrieval", "file-management"],
-  };
   // Legacy topic → pillar (old drops in localStorage may still carry a topic).
   const TOPIC_TO_PILLAR = { "paid-media": "SEM", "seo": "SEO", "ai": "AI", "content": "SEO", "social-ads": "SMA" };
 
+  // Talk-time estimate: a talking point riffed on camera runs ~20s.
+  const SECONDS_PER_POINT = 20;
+
   let cards = [];
   let news = [];
-  let angles = [];
-  const pipelineFilter = { stage: "ready" }; // idea | researched | ready | recorded | skipped
 
   // ---- storage helpers (fail-open: app must work with storage blocked) ----
 
@@ -62,10 +55,9 @@
   }
 
   async function loadData() {
-    const [baseCards, baseNews, baseAngles] = await Promise.all([
+    const [baseCards, baseNews] = await Promise.all([
       fetchJson("data/cards.json"),
       fetchJson("data/news.json"),
-      fetchJson("data/angles.json"),
     ]);
 
     const drops = lsGet(LS.drops, []);
@@ -73,37 +65,39 @@
     const pillarOverlay = lsGet(LS.pillar, {});
     const stageOverlay = lsGet(LS.stage, {});
 
-    cards = drops.concat(baseCards).map(c => {
+    cards = drops.concat(Array.isArray(baseCards) ? baseCards : []).map(c => {
       const status = statusOverlay[c.id] || c.status || "fresh";
       return {
         ...c,
         pillar: pillarOverlay[c.id] || c.pillar || TOPIC_TO_PILLAR[c.topic] || null,
         status,
-        stage: stageOverlay[c.id] || deriveStage(c, status),
+        recorded: stageOverlay[c.id] === "recorded" || status === "recorded",
       };
     });
     cards.sort((a, b) => (b.created || "").localeCompare(a.created || ""));
 
     news = Array.isArray(baseNews) ? baseNews : [];
-    angles = Array.isArray(baseAngles) ? baseAngles : [];
   }
 
-  // Stage derivation for cards with no stage overlay yet:
-  // recorded status (legacy) → recorded; beats exist → ready (facts are what MAKE
-  // it researched, but beats mean it's recordable); facts only → researched; else idea.
-  function deriveStage(c, status) {
-    if (status === "recorded") return "recorded";
-    if (Array.isArray(c.beats) && c.beats.length) return "ready";
-    if (Array.isArray(c.facts) && c.facts.length) return "researched";
-    return "idea";
+  function has(arr) { return Array.isArray(arr) && arr.length > 0; }
+
+  // Where a video sits. Ready = has talking points AND receipts. Everything else needs research.
+  function videoState(c) {
+    if (c.status === "skipped") return "skipped";
+    if (c.recorded) return "recorded";
+    if (has(c.beats) && has(c.facts)) return "ready";
+    return "research";
   }
 
-  function setStage(id, stage) {
+  function setRecorded(id, on) {
     const overlay = lsGet(LS.stage, {});
-    overlay[id] = stage;
+    if (on) overlay[id] = "recorded"; else delete overlay[id];
     lsSet(LS.stage, overlay);
+    // clear a legacy "recorded" status so un-recording sticks
+    const status = lsGet(LS.status, {});
+    if (status[id] === "recorded") { status[id] = "fresh"; lsSet(LS.status, status); }
     const card = cards.find(c => c.id === id);
-    if (card) card.stage = stage;
+    if (card) { card.recorded = on; if (card.status === "recorded") card.status = "fresh"; }
   }
 
   function setStatus(id, status) {
@@ -149,31 +143,44 @@
       source: null,
       angle: null,
       beats: [],
-      note: "beats pending — talk it through with Claude",
+      note: "talking points pending — talk it through with Claude",
       status: "fresh",
       platforms: ["tiktok", "linkedin", "meta"],
     };
     const drops = lsGet(LS.drops, []);
     drops.unshift(card);
     lsSet(LS.drops, drops);
-    cards.unshift(card);
+    cards.unshift({ ...card, recorded: false });
     return card;
   }
 
-  // ---- counts (per pillar, for home tiles) ----
+  // ---- talk time ----
 
-  function isSkipped(c) { return c.status === "skipped"; }
-  function inPipeline(c) { return !isSkipped(c) && c.stage !== "recorded"; }
+  function talkSeconds(c) {
+    const points = (has(c.beats) ? c.beats.length : 0) + (has(c.your_points) ? c.your_points.length : 0);
+    return points * SECONDS_PER_POINT;
+  }
+  function fmtTime(s) {
+    const m = Math.floor(s / 60), r = s % 60;
+    return "~" + m + ":" + String(r).padStart(2, "0");
+  }
+
+  // ---- counts ----
+
+  function pillarNews(p) {
+    return news.filter(n => n.pillar === p && n.status !== "ignored");
+  }
 
   function pillarCounts(p) {
+    const inPillar = cards.filter(c => c.pillar === p);
     return {
       news: news.filter(n => n.pillar === p && n.status === "new").length,
-      pipeline: cards.filter(c => c.pillar === p && inPipeline(c)).length,
-      ready: cards.filter(c => c.pillar === p && !isSkipped(c) && c.stage === "ready").length,
+      ready: inPillar.filter(c => videoState(c) === "ready").length,
+      research: inPillar.filter(c => videoState(c) === "research").length,
     };
   }
 
-  // ---- rendering ----
+  // ---- rendering helpers ----
 
   const $ = sel => document.querySelector(sel);
 
@@ -184,14 +191,21 @@
     return node;
   }
 
-  function chip(label, on, onClick) {
-    const b = el("button", "chip" + (on ? " on" : ""), label);
-    b.type = "button";
-    b.addEventListener("click", onClick);
-    return b;
+  function subjectLabel(s) { return s ? s.replace(/-/g, " ") : s; }
+
+  function urlHost(url) {
+    try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
   }
 
-  function subjectLabel(s) { return s ? s.replace(/-/g, " ") : s; }
+  function extLink(cls, text, url) {
+    const a = el("a", cls, text);
+    a.href = url; a.target = "_blank"; a.rel = "noopener";
+    return a;
+  }
+
+  function label(text) { return el("p", "beats-label", text); }
+
+  function nudge(text) { return el("p", "facts-nudge", text); }
 
   // ---- home ----
 
@@ -205,123 +219,201 @@
       a.append(el("p", "tile-sub", PILLAR_SUB[p]));
       const counts = el("div", "tile-counts");
       counts.append(
+        tileCount(n.ready, "ready to record"),
+        tileCount(n.research, "need research"),
         tileCount(n.news, "news"),
-        tileCount(n.pipeline, "in pipeline"),
-        tileCount(n.ready, "ready"),
       );
       a.append(counts);
       return a;
     }));
 
-    const unfiled = cards.filter(c => !c.pillar && inPipeline(c));
+    const unfiled = cards.filter(c => !c.pillar && videoState(c) !== "skipped" && !c.recorded);
     const row = $("#unfiled-row");
     row.hidden = unfiled.length === 0;
     row.textContent = unfiled.length + " unfiled drop" + (unfiled.length === 1 ? "" : "s") + " — tap to file";
   }
 
-  function tileCount(n, label) {
+  function tileCount(n, text) {
     const d = el("div", "tile-count" + (n > 0 ? " has" : ""));
-    d.append(el("span", "n", String(n)), el("span", "l", label));
+    d.append(el("span", "n", String(n)), el("span", "l", text));
     return d;
   }
 
-  // ---- pillar view ----
+  // ---- pillar view: two tabs, Videos | News ----
 
-  function cardListItem(c, fromPillar) {
+  function videoRow(c, fromPillar) {
     const li = el("li");
     const a = el("a", "card");
     a.href = "#/card/" + encodeURIComponent(c.id) + (fromPillar ? "?from=" + fromPillar : "");
 
     const meta = el("div", "card-meta");
-    meta.append(el("span", "badge type", c.type));
     if (c.subject) meta.append(el("span", "badge", subjectLabel(c.subject)));
-    meta.append(el("span", "badge stage-" + c.stage, c.stage));
-    if (isSkipped(c)) meta.append(el("span", "badge status-skipped", "skipped"));
+    const secs = talkSeconds(c);
+    if (secs) meta.append(el("span", "badge", fmtTime(secs)));
+    if (has(c.facts)) meta.append(el("span", "badge", c.facts.length + " receipts"));
 
-    a.append(meta, el("h3", null, c.title), el("p", "story", c.story));
+    a.append(meta, el("h3", null, c.title), el("p", "story", c.synopsis || c.story));
     li.append(a);
     return li;
   }
 
-  function urlHost(url) {
-    try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
+  function group(title, list, fromPillar, folded) {
+    const wrap = folded ? el("details", "group") : el("section", "group");
+    const head = el(folded ? "summary" : "h3", "section-label", title + " (" + list.length + ")");
+    wrap.append(head);
+    if (list.length) {
+      const ul = el("ul", "feed");
+      ul.append(...list.map(c => videoRow(c, fromPillar)));
+      wrap.append(ul);
+    } else if (!folded) {
+      wrap.append(el("p", "empty-quiet", "Nothing here yet."));
+    }
+    return wrap;
   }
 
-  function renderPillar(p) {
+  function renderVideos(p) {
+    const isUnfiled = p === "unfiled";
+    const inPillar = cards.filter(c => (isUnfiled ? !c.pillar : c.pillar === p));
+    const by = s => inPillar.filter(c => videoState(c) === s);
+    const from = isUnfiled ? "unfiled" : p;
+    $("#tab-videos").replaceChildren(
+      group("Ready to record", by("ready"), from, false),
+      group("Needs research", by("research"), from, false),
+      group("Recorded", by("recorded"), from, true),
+      group("Skipped", by("skipped"), from, true),
+    );
+  }
+
+  // Official sources first, items Claude has broken down above those, newest first within each.
+  function newsRank(n) { return (n.brief ? 0 : 2) + (n.official ? 0 : 1); }
+
+  function renderNews(p) {
+    const items = pillarNews(p).slice().sort((a, b) =>
+      newsRank(a) - newsRank(b) || (b.date || "").localeCompare(a.date || ""));
+
+    if (!items.length) {
+      $("#tab-news").replaceChildren(el("p", "empty-quiet", "No news for this pillar yet."));
+      return;
+    }
+
+    const ul = el("ul", "feed");
+    ul.append(...items.map(n => {
+      const li = el("li");
+      const div = el(n.brief ? "a" : "div", "news-item" + (n.brief ? " briefed" : ""));
+      if (n.brief) div.href = "#/news/" + encodeURIComponent(n.id);
+
+      const meta = el("div", "card-meta");
+      if (n.brief) meta.append(el("span", "badge official", "breakdown"));
+      if (n.official) meta.append(el("span", "badge official", "official"));
+      if (n.source) meta.append(el("span", "badge source", n.source));
+      if (n.date) meta.append(el("span", "badge", n.date));
+      div.append(meta, el("h3", null, n.title));
+
+      if (n.brief) {
+        div.append(el("p", "story", n.brief.synopsis));
+        div.append(el("p", "news-cta", "Read the breakdown →"));
+      } else {
+        if (n.note) div.append(el("p", "story", n.note));
+        if (n.url) div.append(extLink("news-link", "Source — " + urlHost(n.url), n.url));
+      }
+      li.append(div);
+      return li;
+    }));
+    $("#tab-news").replaceChildren(ul);
+  }
+
+  function renderPillar(p, tab) {
     const isUnfiled = p === "unfiled";
     $("#pillar-title").textContent = isUnfiled ? "UNFILED DROPS" : p;
 
-    // News + angles don't apply to the unfiled bucket
-    $("#news-list").closest(".pillar-section").hidden = isUnfiled;
-    $("#angle-list").closest(".pillar-section").hidden = isUnfiled;
+    const tabs = $("#pillar-tabs");
+    tabs.hidden = isUnfiled;
+    const showNews = !isUnfiled && tab === "news";
 
     if (!isUnfiled) {
-      // news we're tracking — newest first, sources front and center
-      const items = news.filter(n => n.pillar === p && n.status !== "ignored")
-        .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-      $("#news-label").textContent = "News we're tracking" + (items.length ? " (" + items.length + ")" : "");
-      $("#news-list").replaceChildren(...items.map(n => {
-        const li = el("li");
-        const div = el("div", "news-item");
-        const meta = el("div", "card-meta");
-        if (n.source) meta.append(el("span", "badge source", n.source));
-        if (n.official) meta.append(el("span", "badge official", "official"));
-        if (n.status === "new") meta.append(el("span", "badge type", "new"));
-        if (n.date) meta.append(el("span", "badge", n.date));
-        div.append(meta, el("h3", null, n.title));
-        if (n.note) div.append(el("p", "story", n.note));
-        if (n.url) {
-          const a = el("a", "news-link", "Read the source — " + urlHost(n.url));
-          a.href = n.url; a.target = "_blank"; a.rel = "noopener";
-          div.append(a);
-        }
-        li.append(div);
-        return li;
-      }));
-      $("#news-empty").hidden = items.length > 0;
-
-      // angles
-      const pillarAngles = angles.filter(a => a.pillar === p && a.status !== "recorded");
-      $("#angle-list").replaceChildren(...pillarAngles.map(a => {
-        const li = el("li");
-        const div = el("div", "angle-item");
-        const meta = el("div", "card-meta");
-        meta.append(el("span", "badge type", a.status));
-        if (a.subject) meta.append(el("span", "badge", subjectLabel(a.subject)));
-        div.append(meta, el("p", "stance", a.stance));
-        li.append(div);
-        return li;
-      }));
-      $("#angle-empty").hidden = pillarAngles.length > 0;
+      const videoCount = cards.filter(c => c.pillar === p && ["ready", "research"].includes(videoState(c))).length;
+      const newsCount = pillarNews(p).length;
+      tabs.replaceChildren(
+        tabLink("Videos (" + videoCount + ")", "#/pillar/" + p, !showNews),
+        tabLink("News (" + newsCount + ")", "#/pillar/" + p + "/news", showNews),
+      );
     }
 
-    // the pipeline — stage filter chips, skipped as the off-ramp
-    const chipsRow = $("#ready-chips");
-    const defs = [
-      ["idea", "Idea"],
-      ["researched", "Researched"],
-      ["ready", "Ready"],
-      ["recorded", "Recorded"],
-      ["skipped", "Skipped"],
-    ];
-    chipsRow.replaceChildren(...defs.map(([key, label]) =>
-      chip(label, pipelineFilter.stage === key, () => {
-        pipelineFilter.stage = key;
-        renderPillar(p);
-      })
-    ));
-
-    const inPillar = cards.filter(c => (isUnfiled ? !c.pillar : c.pillar === p));
-    const visible = inPillar.filter(c =>
-      pipelineFilter.stage === "skipped"
-        ? isSkipped(c)
-        : !isSkipped(c) && c.stage === pipelineFilter.stage
-    );
-    $("#ready-list").replaceChildren(...visible.map(c => cardListItem(c, p)));
-    $("#ready-empty").hidden = visible.length > 0;
+    $("#tab-videos").hidden = showNews;
+    $("#tab-news").hidden = !showNews;
+    if (showNews) renderNews(p); else renderVideos(p);
   }
 
-  // ---- card view ----
+  function tabLink(text, href, on) {
+    const a = el("a", "tab" + (on ? " on" : ""), text);
+    a.href = href;
+    a.setAttribute("role", "tab");
+    a.setAttribute("aria-selected", String(on));
+    return a;
+  }
+
+  // ---- news breakdown view ----
+
+  function renderNewsDetail(id) {
+    const n = news.find(x => x.id === id);
+    const root = $("#news-detail");
+    $("#news-back").href = n ? "#/pillar/" + n.pillar + "/news" : "#/";
+
+    if (!n) {
+      root.replaceChildren(el("p", "empty", "NEWS ITEM NOT FOUND."));
+      return;
+    }
+    root.replaceChildren();
+
+    const meta = el("div", "card-meta");
+    if (n.official) meta.append(el("span", "badge official", "official"));
+    if (n.source) meta.append(el("span", "badge source", n.source));
+    if (n.date) meta.append(el("span", "badge", n.date));
+    root.append(meta, el("h2", null, n.title));
+
+    const b = n.brief;
+    if (!b) {
+      root.append(nudge("Not broken down yet — ask Claude to read it."));
+      if (n.url) root.append(extLink("news-link", "Source — " + urlHost(n.url), n.url));
+      return;
+    }
+
+    const syn = el("div", "angle");
+    syn.append(el("p", "label", "Synopsis"), el("p", null, b.synopsis));
+    root.append(syn);
+
+    if (has(b.bits)) {
+      root.append(label("The interesting bits"));
+      const ol = el("ol", "bits");
+      b.bits.forEach(t => ol.append(el("li", null, t)));
+      root.append(ol);
+    }
+
+    if (has(b.sources)) {
+      root.append(label("Sources — what Claude read"));
+      const ul = el("ul", "fact-list");
+      b.sources.forEach(s => {
+        const li = el("li", "fact");
+        if (s.official) {
+          const m = el("div", "card-meta");
+          m.append(el("span", "badge official", "official"));
+          li.append(m);
+        }
+        li.append(el("p", "fact-claim", s.label));
+        if (s.url) li.append(extLink("fact-source", "Open — " + urlHost(s.url), s.url));
+        ul.append(li);
+      });
+      root.append(ul);
+    }
+
+    if (n.card && cards.some(c => c.id === n.card)) {
+      const a = el("a", "btn btn-accent btn-link", "The video for this →");
+      a.href = "#/card/" + encodeURIComponent(n.card) + "?from=" + n.pillar;
+      root.append(a);
+    }
+  }
+
+  // ---- video (card) view ----
 
   function renderCard(id, from) {
     const c = cards.find(x => x.id === id);
@@ -335,29 +427,22 @@
     }
 
     root.replaceChildren();
+    const state = videoState(c);
 
     const meta = el("div", "card-meta");
-    meta.append(el("span", "badge type", c.type));
     if (c.pillar) meta.append(el("span", "badge pillar", c.pillar));
     if (c.subject) meta.append(el("span", "badge", subjectLabel(c.subject)));
-    meta.append(el("span", "badge", c.created));
-    if (isSkipped(c)) meta.append(el("span", "badge status-skipped", "skipped"));
+    const secs = talkSeconds(c);
+    if (secs) meta.append(el("span", "badge", fmtTime(secs) + " talk time"));
+    if (state === "recorded") meta.append(el("span", "badge status-recorded", "recorded"));
+    if (state === "skipped") meta.append(el("span", "badge status-skipped", "skipped"));
     root.append(meta);
 
     root.append(el("h2", null, c.title));
-    root.append(el("p", "story", c.story));
-
-    if (c.source) {
-      const a = el("a", "source-link", c.source);
-      a.href = c.source;
-      a.target = "_blank";
-      a.rel = "noopener";
-      root.append(a);
-    }
 
     // unfiled drop: one tap files it under a pillar
     if (!c.pillar) {
-      root.append(el("p", "beats-label", "File under"));
+      root.append(label("File under"));
       const row = el("div", "drop-pillars");
       PILLARS.forEach(p => {
         const b = el("button", "btn pillar-btn", p);
@@ -371,51 +456,14 @@
       root.append(row);
     }
 
-    // stage row — where the card sits, tap to shift it
-    root.append(el("p", "beats-label", "Stage — tap to shift"));
-    const stageRow = el("div", "stage-row");
-    STAGES.forEach(s => {
-      const b = el("button", "stage-seg" + (c.stage === s ? " on" : ""), s);
-      b.type = "button";
-      b.setAttribute("aria-pressed", String(c.stage === s));
-      b.addEventListener("click", () => {
-        setStage(c.id, s);
-        renderCard(c.id, from);
-      });
-      stageRow.append(b);
-    });
-    root.append(stageRow);
+    // 1. synopsis
+    const syn = el("div", "angle");
+    syn.append(el("p", "label", "Synopsis"), el("p", null, c.synopsis || c.story));
+    root.append(syn);
 
-    if (c.angle) {
-      const angle = el("div", "angle");
-      angle.append(el("p", "label", "The angle"));
-      angle.append(el("p", null, c.angle));
-      root.append(angle);
-    }
-
-    // the facts — receipts before takes
-    const facts = el("div", "facts");
-    facts.append(el("p", "label", "The facts — receipts before takes"));
-    if (Array.isArray(c.facts) && c.facts.length) {
-      const ul = el("ul", "fact-list");
-      c.facts.forEach(f => {
-        const li = el("li", "fact");
-        li.append(el("p", "fact-claim", f.claim));
-        if (f.source) {
-          const a = el("a", "fact-source", "Source — " + urlHost(f.source));
-          a.href = f.source; a.target = "_blank"; a.rel = "noopener";
-          li.append(a);
-        }
-        ul.append(li);
-      });
-      facts.append(ul);
-    } else {
-      facts.append(el("p", "facts-nudge", "No receipts yet — research with Claude before recording."));
-    }
-    root.append(facts);
-
-    root.append(el("p", "beats-label", "Beats — tick as you nail them"));
-    if (Array.isArray(c.beats) && c.beats.length) {
+    // 2. my talking points — tick as you nail them
+    root.append(label("My talking points — tick as you go"));
+    if (has(c.beats)) {
       const ul = el("ul", "beats");
       const ticks = getTicks(c.id, c.beats.length);
       c.beats.forEach((beat, i) => {
@@ -436,16 +484,76 @@
       });
       root.append(ul);
     } else {
-      root.append(el("p", "beats-pending", c.note || "beats pending — talk it through with Claude"));
+      root.append(nudge(c.note || "Talking points pending — talk it through with Claude."));
     }
 
-    // skip is the off-ramp; a skipped card gets a way back in
+    // 3. your points
+    root.append(label("Your points"));
+    if (has(c.your_points)) {
+      const ul = el("ul", "plain-list");
+      c.your_points.forEach(t => ul.append(el("li", null, t)));
+      root.append(ul);
+    } else {
+      root.append(nudge("Nothing yet — tell Claude what you want said and it lands here."));
+    }
+
+    // 4. things to say — the lines worth saying word for word
+    root.append(label("Things to say"));
+    if (has(c.lines)) {
+      const ul = el("ul", "lines");
+      c.lines.forEach(l => {
+        const li = el("li", "line");
+        if (l.kind) li.append(el("span", "line-kind", l.kind));
+        li.append(el("p", null, "“" + (l.text || l) + "”"));
+        ul.append(li);
+      });
+      root.append(ul);
+    } else {
+      root.append(nudge("Hook, punch lines and closer — once we've talked it through."));
+    }
+
+    // 5. folded: the angle + receipts
+    if (c.angle) {
+      const d = el("details", "fold");
+      d.append(el("summary", "section-label", "The angle"), el("p", "fold-body", c.angle));
+      root.append(d);
+    }
+
+    const r = el("details", "fold");
+    r.append(el("summary", "section-label", "Receipts (" + (has(c.facts) ? c.facts.length : 0) + ")"));
+    if (has(c.facts)) {
+      const ul = el("ul", "fact-list");
+      c.facts.forEach(f => {
+        const li = el("li", "fact");
+        li.append(el("p", "fact-claim", f.claim));
+        if (f.source) li.append(extLink("fact-source", "Source — " + urlHost(f.source), f.source));
+        ul.append(li);
+      });
+      r.append(ul);
+    } else {
+      r.append(nudge("No receipts yet — research with Claude before recording."));
+    }
+    root.append(r);
+
+    if (c.newsRef && news.some(n => n.id === c.newsRef && n.brief)) {
+      const a = el("a", "news-cta block", "From the news — read the breakdown →");
+      a.href = "#/news/" + encodeURIComponent(c.newsRef);
+      root.append(a);
+    }
+
+    // actions: recorded toggle + skip off-ramp
     const actions = el("div", "actions");
-    const b = el("button", "btn" + (isSkipped(c) ? "" : " btn-danger"),
-      isSkipped(c) ? "Back in the pipeline" : "Skip");
-    b.type = "button";
-    b.addEventListener("click", () => {
-      if (isSkipped(c)) {
+    if (state !== "skipped") {
+      const rec = el("button", "btn" + (c.recorded ? "" : " btn-accent"), c.recorded ? "Not recorded yet" : "Mark recorded");
+      rec.type = "button";
+      rec.addEventListener("click", () => { setRecorded(c.id, !c.recorded); renderCard(c.id, from); });
+      actions.append(rec);
+    }
+    const skip = el("button", "btn" + (state === "skipped" ? "" : " btn-danger"),
+      state === "skipped" ? "Bring it back" : "Skip");
+    skip.type = "button";
+    skip.addEventListener("click", () => {
+      if (state === "skipped") {
         setStatus(c.id, "fresh");
         renderCard(c.id, from);
       } else {
@@ -453,7 +561,7 @@
         location.hash = backTo ? "#/pillar/" + backTo : "#/";
       }
     });
-    actions.append(b);
+    actions.append(skip);
     root.append(actions);
   }
 
@@ -488,18 +596,22 @@
     const hash = location.hash || "#/";
     const views = {
       home: $("#view-home"), pillar: $("#view-pillar"),
-      card: $("#view-card"), drop: $("#view-drop"),
+      card: $("#view-card"), news: $("#view-news"), drop: $("#view-drop"),
     };
     Object.values(views).forEach(v => { v.hidden = true; });
 
     const cardMatch = hash.match(/^#\/card\/([^?]+)(?:\?from=([A-Za-z]+))?$/);
-    const pillarMatch = hash.match(/^#\/pillar\/([A-Za-z]+)$/);
+    const newsMatch = hash.match(/^#\/news\/([^?]+)$/);
+    const pillarMatch = hash.match(/^#\/pillar\/([A-Za-z]+)(?:\/(news|videos))?$/);
 
     if (cardMatch) {
       renderCard(decodeURIComponent(cardMatch[1]), cardMatch[2] || null);
       views.card.hidden = false;
+    } else if (newsMatch) {
+      renderNewsDetail(decodeURIComponent(newsMatch[1]));
+      views.news.hidden = false;
     } else if (pillarMatch && (PILLARS.includes(pillarMatch[1]) || pillarMatch[1] === "unfiled")) {
-      renderPillar(pillarMatch[1]);
+      renderPillar(pillarMatch[1], pillarMatch[2] || "videos");
       views.pillar.hidden = false;
     } else if (hash === "#/drop") {
       views.drop.hidden = false;

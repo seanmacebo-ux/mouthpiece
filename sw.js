@@ -1,7 +1,7 @@
 /* MOUTHPIECE service worker.
    Shell = cache-first. Data (data/*.json) = network-first with cache fallback. */
 
-const VERSION = "mouthpiece-v3";
+const VERSION = "mouthpiece-v4";
 const SHELL_CACHE = VERSION + "-shell";
 const DATA_CACHE = VERSION + "-data";
 

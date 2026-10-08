@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>MOUTHPIECE</title>
-  <meta name="description" content="Personal content engine. Topic → news → angle → talking points.">
+  <meta name="description" content="Personal content engine. News → breakdown → video.">
   <meta name="theme-color" content="#0a0a0a">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -27,32 +27,22 @@
     <a id="unfiled-row" class="unfiled" href="#/pillar/unfiled" hidden></a>
   </main>
 
-  <!-- PILLAR: news / angles / the pipeline -->
+  <!-- PILLAR: two tabs — Videos (what you'll say) | News (what happened) -->
   <main id="view-pillar" class="view" hidden>
     <a class="back" href="#/">&larr; PILLARS</a>
     <h2 id="pillar-title" class="view-title"></h2>
-
-    <section class="pillar-section">
-      <h3 id="news-label" class="section-label">News we're tracking</h3>
-      <ul id="news-list" class="feed"></ul>
-      <p id="news-empty" class="empty-quiet" hidden>Harvester not wired yet — news lands here.</p>
-    </section>
-
-    <section class="pillar-section">
-      <h3 class="section-label">Angles</h3>
-      <ul id="angle-list" class="feed"></ul>
-      <p id="angle-empty" class="empty-quiet" hidden>No angles yet — talk it through with Claude.</p>
-    </section>
-
-    <section class="pillar-section">
-      <h3 class="section-label">The pipeline</h3>
-      <div class="chip-row" id="ready-chips" role="tablist" aria-label="Filter cards by stage"></div>
-      <ul id="ready-list" class="feed"></ul>
-      <p id="ready-empty" class="empty-quiet" hidden>Nothing at this stage — shift something along.</p>
-    </section>
+    <nav id="pillar-tabs" class="tabs" role="tablist" aria-label="Videos or news"></nav>
+    <div id="tab-videos"></div>
+    <div id="tab-news" hidden></div>
   </main>
 
-  <!-- CARD -->
+  <!-- NEWS BREAKDOWN -->
+  <main id="view-news" class="view" hidden>
+    <a id="news-back" class="back" href="#/">&larr; NEWS</a>
+    <article id="news-detail"></article>
+  </main>
+
+  <!-- VIDEO (CARD) -->
   <main id="view-card" class="view" hidden>
     <a id="card-back" class="back" href="#/">&larr; BACK</a>
     <article id="card-detail"></article>

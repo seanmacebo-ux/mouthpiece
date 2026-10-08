@@ -51,8 +51,36 @@
     "title": "Google opens Conversion Lift to Search and Performance Max",
     "url": "https://searchengineland.com/google-opens-conversion-lift-to-search-and-performance-max-494195",
     "note": "PMax change — check against our PMax playbook.",
-    "status": "new",
-    "official": false
+    "status": "angled",
+    "official": false,
+    "brief": {
+      "read": "2026-10-08",
+      "synopsis": "Conversion Lift hides your ads from a random slice of people (the holdout, 1-50%) and compares their buying with everyone who saw the ads. The difference is what the ads actually caused. Trade press says Search and PMax advertisers can now set it up themselves instead of going through a Google rep. Entry ticket: 1,000 conversions and a $5,000 campaign budget.",
+      "bits": [
+        "Google's own help page doesn't back the headline yet. It still says Conversion Lift 'isn't available for all Google Ads accounts' and to contact your account rep. Press says open to all; Google's docs say not quite.",
+        "Google is admitting attribution isn't the truth. You don't build a tool to measure what ads actually caused if the normal conversion numbers already told you.",
+        "The $5k budget and 1,000-conversion floor shuts out most small accounts. Big spenders get proof; everyone else keeps trusting the dashboard.",
+        "The fine print: under 90% certainty the result is only 'directional', and tests under 14 days on slow-converting products under-measure lift by about 17%. A rushed test gives a misleading answer."
+      ],
+      "sources": [
+        {
+          "label": "Google Ads Help: Set up Conversion Lift based on users",
+          "url": "https://support.google.com/google-ads/answer/12005564?hl=en",
+          "official": true
+        },
+        {
+          "label": "eCommerce Paradise write-up of the announcement",
+          "url": "https://ecommerceparadise.com/google-conversion-lift-search-pmax/",
+          "official": false
+        },
+        {
+          "label": "Search Engine Land (original report; blocked our reader, not read directly)",
+          "url": "https://searchengineland.com/google-opens-conversion-lift-to-search-and-performance-max-494195",
+          "official": false
+        }
+      ]
+    },
+    "card": "news-conversion-lift-search-pmax"
   },
   {
     "id": "4578000a71da",

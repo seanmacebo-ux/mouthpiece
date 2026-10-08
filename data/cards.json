@@ -1,92 +1,62 @@
 [
   {
-    "id": "scar-tracking-launched-unverified",
-    "created": "2026-10-07",
-    "type": "scar",
+    "id": "news-conversion-lift-search-pmax",
+    "created": "2026-10-08",
+    "type": "news",
     "pillar": "SEM",
-    "subject": "tracking",
-    "title": "I launched conversion tracking and never checked it fired",
-    "story": "Campaigns went live, tracking tags were 'installed', and nobody fired a test conversion. The account spent real money while Google optimised toward a signal that didn't exist.",
-    "source": null,
-    "angle": "Half the accounts I inherit have this exact problem and the owner has no idea. If you didn't SEE a test conversion land in the platform, your tracking is not live — it's a hope. Smart Bidding on broken tracking isn't automation, it's a slot machine.",
+    "subject": "pmax",
+    "title": "Google just admitted its conversion numbers aren't proof",
+    "synopsis": "Conversion Lift hides your ads from a random slice of people (the holdout, 1-50%) and compares their buying with everyone who saw the ads. The difference is what the ads actually caused. Trade press says Search and PMax advertisers can now set it up themselves instead of going through a Google rep. Entry ticket: 1,000 conversions and a $5,000 campaign budget.",
+    "story": "Conversion Lift hides your ads from a random slice of people (the holdout, 1-50%) and compares their buying with everyone who saw the ads. The difference is what the ads actually caused. Trade press says Search and PMax advertisers can now set it up themselves instead of going through a Google rep. Entry ticket: 1,000 conversions and a $5,000 campaign budget.",
+    "source": "https://support.google.com/google-ads/answer/12005564?hl=en",
+    "newsRef": "3997fb2c094c",
+    "angle": "Google built a tool to measure what your ads actually caused. That only makes sense if the normal conversion numbers don't tell you that. It's the 'you can't track shit as cleanly as they promise' thesis, straight from Google. And the entry ticket means most small accounts still run on attribution alone.",
     "beats": [
-      "I shipped tracking without firing a test conversion",
-      "the platform said 'active' — that means nothing",
-      "smart bidding optimised to a ghost signal",
-      "rule now: no launch until I watch a test conversion land in the account",
-      "go check yours right now — when did a conversion last actually record?"
+      "Google just told you its own conversion numbers aren't proof",
+      "what a lift test actually does: hide the ads from some people, compare, the gap is what the ads caused",
+      "read the help doc, not the headline: the press says self-serve, Google's page still says 'ask your rep'",
+      "1,000 conversions and $5k to get in: under that, you're still flying on attribution"
     ],
-    "status": "fresh",
-    "platforms": [
-      "tiktok",
-      "linkedin",
-      "meta"
-    ]
-  },
-  {
-    "id": "scar-split-remove-create",
-    "created": "2026-10-06",
-    "type": "scar",
-    "pillar": "SEM",
-    "subject": "google-ads",
-    "title": "The £58 lesson in deleting before creating",
-    "story": "I automated a Google Ads change as two steps: remove the old setup, then create the new one. The remove worked. The create failed. The account ran exposed and the wasted spend was mine to explain.",
-    "source": null,
-    "angle": "Everyone automating their ads is one half-finished script away from this. If a destructive change and its replacement aren't one atomic operation, there's a window where the account is live with no guardrails — and failures always pick that window.",
-    "beats": [
-      "I deleted the old setup before the new one existed",
-      "the create call failed — the delete didn't",
-      "£58 of spend ran with no guardrails before I caught it",
-      "nothing LOOKED broken, that's the scary part",
-      "rule: remove and create ship together or they don't ship"
+    "your_points": [],
+    "lines": [
+      {
+        "kind": "hook",
+        "text": "Google just admitted its own conversion numbers aren't proof."
+      },
+      {
+        "kind": "punch",
+        "text": "Read the help doc, not the headline. They don't agree."
+      },
+      {
+        "kind": "closer",
+        "text": "If you're under a thousand conversions, you're still trusting the dashboard. Know that."
+      }
     ],
-    "status": "fresh",
-    "platforms": [
-      "tiktok",
-      "linkedin",
-      "meta"
-    ]
-  },
-  {
-    "id": "scar-backfill-wiped-everything",
-    "created": "2026-10-05",
-    "type": "scar",
-    "pillar": "AI",
-    "subject": "vibe-coding",
-    "title": "My one-client backfill deleted every client's data",
-    "story": "I ran a data backfill scoped to a single account, but the delete step behind it didn't respect that scope. It cleared the reporting data for the whole book of clients before reloading one.",
-    "source": null,
-    "angle": "The dangerous part of automation isn't the AI — it's the delete-then-reload pattern hiding inside your pipelines. If you can't say exactly what a script deletes before it inserts, you haven't automated reporting, you've armed it.",
-    "beats": [
-      "scoped the job to ONE account — the delete ran on ALL of them",
-      "the filter was on the insert, not the delete",
-      "the worst bugs do their damage silently and finish green",
-      "ask of every script: what does this delete, exactly?",
-      "and it bit me TWICE before the rule stuck — that's the honest bit"
-    ],
-    "status": "fresh",
-    "platforms": [
-      "tiktok",
-      "linkedin",
-      "meta"
-    ]
-  },
-  {
-    "id": "scar-live-account-experiments",
-    "created": "2026-10-04",
-    "type": "scar",
-    "pillar": "AI",
-    "subject": "apis",
-    "title": "I tested an unknown API on a live ad account",
-    "story": "New API, unfamiliar behaviour, and I pointed my first experiments at a production ad account because 'validate mode' felt safe enough. Validate mode is not a sandbox.",
-    "source": null,
-    "angle": "Marketers are wiring AI into ad accounts that spend real money, and most are learning the API on production. A dry-run flag checks syntax, not consequences. If you wouldn't test brake pads on the motorway, don't test write-calls on a live account.",
-    "beats": [
-      "first time using the API — straight onto a spending account",
-      "'validate only' checks your syntax, not your blast radius",
-      "test accounts are free — mistakes on live ones aren't",
-      "rule: unknown API means test account, no exceptions",
-      "your AI agent needs this rule even more than you do"
+    "facts": [
+      {
+        "claim": "Google's help page lists Display, Search, Video, Demand Gen, App and Performance Max as supported campaign types for user-based Conversion Lift.",
+        "source": "https://support.google.com/google-ads/answer/12005564?hl=en"
+      },
+      {
+        "claim": "The same page still says: 'Conversion Lift isn't available for all Google Ads accounts. To use Conversion Lift, contact your Google account representative.'",
+        "source": "https://support.google.com/google-ads/answer/12005564?hl=en"
+      },
+      {
+        "claim": "Requirements per Google: at least 1,000 observed conversions and a minimum campaign budget of $5,000 USD.",
+        "source": "https://support.google.com/google-ads/answer/12005564?hl=en"
+      },
+      {
+        "claim": "Studies can run as short as 7 days but Google recommends more than 14; studies with a long conversion lag that run under 14 days show a 17% drop in absolute lift.",
+        "source": "https://support.google.com/google-ads/answer/12005564?hl=en"
+      },
+      {
+        "claim": "Google says aim for 90% certainty; results between 50% and 90% are 'directional' only.",
+        "source": "https://support.google.com/google-ads/answer/12005564?hl=en"
+      },
+      {
+        "claim": "Reported 7 Oct 2026: Search and PMax advertisers get self-serve access, where previously they needed a Google rep (trade press; Search Engine Land's original blocked our reader).",
+        "source": "https://ecommerceparadise.com/google-conversion-lift-search-pmax/"
+      }
     ],
     "status": "fresh",
     "platforms": [
