@@ -63,7 +63,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "build-reporting-pipeline",
@@ -87,7 +88,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Agency owners"
   },
   {
     "id": "build-claude-operations",
@@ -111,7 +113,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Agency owners"
   },
   {
     "id": "build-team-knowledge-guide",
@@ -135,7 +138,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Agency owners"
   },
   {
     "id": "evergreen-what-pmax-actually-is",
@@ -182,7 +186,8 @@
         "claim": "E-commerce case study: inspecting the actual converting search terms inside PMax showed a disproportionate share were branded queries — PMax taking credit for sales the brand name earned.",
         "source": "https://www.groas.com/post/performance-max-cannibalized-ecommerce-brand-search-case-study"
       }
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "evergreen-merchant-center-mistakes",
@@ -224,7 +229,8 @@
         "claim": "Google's recommended title structure is attribute-first: distinctive product attributes at the beginning (e.g. 'Nexus 7 tablet, 32 GB, black'), the opposite of most default platform exports.",
         "source": "https://support.google.com/merchants/answer/6324415"
       }
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "evergreen-negative-keywords-truth",
@@ -248,7 +254,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "thesis-filtered-bullshit",
@@ -294,7 +301,8 @@
         "claim": "Meta itself estimated Apple's ATT privacy change would cost it ~$10 billion in 2022 revenue — the platforms admit signal loss at the billions scale.",
         "source": "https://www.cnbc.com/2022/02/02/facebook-says-apple-ios-privacy-change-will-cost-10-billion-this-year.html"
       }
-    ]
+    ],
+    "audience": "Everyone"
   },
   {
     "id": "evergreen-marketer-considerations",
@@ -318,7 +326,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Juniors"
   },
   {
     "id": "issues-pmax",
@@ -342,7 +351,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-ai-max",
@@ -388,7 +398,8 @@
         "claim": "AI Max shipped WITH guardrails: brand controls (include/exclude brands), 'locations of interest' geo controls, and URL-level controls — Google itself assumes you'll constrain it.",
         "source": "https://www.searchenginejournal.com/its-official-google-launches-ai-max-for-search-campaigns/546087/"
       }
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "issues-search-campaigns",
@@ -412,7 +423,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "evergreen-skags-vs-stags",
@@ -455,7 +467,8 @@
         "claim": "The direction of travel is keywordless: AI Max adds matching beyond your keyword list entirely (from landing pages and assets), opted in per campaign — control is becoming something you actively defend.",
         "source": "https://support.google.com/google-ads/answer/15910187"
       }
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "issues-reporting",
@@ -479,7 +492,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-analysing-analytics",
@@ -503,7 +517,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Juniors"
   },
   {
     "id": "issues-keyword-research",
@@ -527,7 +542,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Juniors"
   },
   {
     "id": "issues-parameters",
@@ -551,7 +567,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "evergreen-microsoft-vs-google-ads",
@@ -575,7 +592,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-feed-attributes",
@@ -599,7 +617,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-invisible-online",
@@ -623,7 +642,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-lack-of-content",
@@ -647,7 +667,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-lack-of-pr",
@@ -671,7 +692,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-site-structure",
@@ -695,7 +717,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-explaining-your-product",
@@ -719,7 +742,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-social-proof",
@@ -743,7 +767,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-page-titles",
@@ -767,7 +792,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "evergreen-local-profiles",
@@ -809,7 +835,8 @@
         "claim": "There are over 1 billion 'near me' searches every month in the US alone — maps-intent search volume is enormous and mostly mobile (~76% of local searches on smartphones).",
         "source": "https://wisernotify.com/blog/google-business-profile-statistics/"
       }
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "evergreen-search-console-vs-webmaster",
@@ -833,7 +860,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Juniors"
   },
   {
     "id": "evergreen-seo-includes-ai-now",
@@ -876,7 +904,8 @@
         "source": "https://www.digitaleer.com/ai-impact-google-search-traffic-2026/",
         "flag": "contradicts-beat"
       }
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-audience-myth",
@@ -900,7 +929,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-personas-demographics",
@@ -924,7 +954,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-hooks-and-volume",
@@ -966,7 +997,8 @@
         "claim": "TikTok officially recommends businesses post 1-4 times PER DAY as an always-on strategy to test what lands — platform-endorsed volume, not guru advice.",
         "source": "https://stackinfluence.com/blog/how-often-you-post-on-tiktok-for-a-business"
       }
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "issues-organic-content-drought",
@@ -990,7 +1022,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Business owners"
   },
   {
     "id": "evergreen-advantage-plus",
@@ -1032,7 +1065,8 @@
         "claim": "The 'signal in' argument is Meta-documented: running the pixel AND Conversions API redundantly improved CPA by ~13% on average in Meta's measurement — the algorithm is only as good as the events you feed it.",
         "source": "https://www.journify.io/resources/how-to-improve-meta-match-rate/"
       }
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "issues-social-tracking",
@@ -1078,7 +1112,8 @@
         "claim": "Meta recommends running pixel + Conversions API redundantly (13% avg CPA improvement in Meta's study), but events must share an event_id for deduplication — set up wrong, you double-count or drop conversions.",
         "source": "https://www.journify.io/resources/how-to-improve-meta-match-rate/"
       }
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "issues-ai-reliance-content",
@@ -1102,7 +1137,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "issues-no-skills-no-plugins",
@@ -1126,7 +1162,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "issues-workflows",
@@ -1150,7 +1187,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Agency owners"
   },
   {
     "id": "issues-little-jobs",
@@ -1174,7 +1212,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Agency owners"
   },
   {
     "id": "issues-verify-your-ai",
@@ -1198,7 +1237,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "issues-working-apis",
@@ -1222,7 +1262,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "issues-ai-plumbing",
@@ -1246,7 +1287,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Agency owners"
   },
   {
     "id": "evergreen-feature-firehose",
@@ -1270,7 +1312,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Fellow marketers"
   },
   {
     "id": "build-how-we-use-ai",
@@ -1294,7 +1337,8 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Agency owners"
   },
   {
     "id": "issues-jargon-barrier",
@@ -1318,6 +1362,7 @@
       "tiktok",
       "linkedin",
       "meta"
-    ]
+    ],
+    "audience": "Juniors"
   }
 ]
