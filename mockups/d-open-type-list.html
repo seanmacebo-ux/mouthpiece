@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Mouthpiece list d-open-type</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>:root{--bg:#0B0B0B;--fg:#EDEDED;--muted:#8C8C8C;--line:#232323;--accent:#FFE45C;--display:'Anton',Impact,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;--h1:40px;--h1lh:1.0;--h1tt:uppercase;--h1w:400;--h1ls:.01em}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.top{display:flex;justify-content:space-between;align-items:baseline;padding:18px 20px 10px}
+.brand{font-family:var(--display);font-weight:var(--h1w);font-size:20px;letter-spacing:.02em;text-transform:uppercase}
+.top small{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+main{padding:8px 20px 56px;max-width:430px}
+.meta{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.meta .hi{color:var(--accent)}
+h1{font-family:var(--display);font-weight:var(--h1w);font-size:var(--h1);line-height:var(--h1lh);
+   text-transform:var(--h1tt);letter-spacing:var(--h1ls);margin:10px 0 18px}
+.sec{margin-top:36px}
+.sec > .meta{display:block;margin-bottom:12px}
+/* facts as a plain sentence row, no box */
+.facts{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--muted)}
+.facts b{color:var(--fg);font-weight:600}
+/* agreement: one line, text button */
+.agree{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding:12px 0;
+       border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:14px;color:var(--muted)}
+.agree a{color:var(--accent);font:600 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;min-height:44px;display:flex;align-items:center}
+.syn{font-size:19px;line-height:1.5;margin:0}
+/* numbered talking points, rows not boxes */
+.points{list-style:none;margin:0;padding:0}
+.points li{display:grid;grid-template-columns:34px 1fr;gap:8px;padding:14px 0;border-top:1px solid var(--line);min-height:48px}
+.points li:last-child{border-bottom:1px solid var(--line)}
+.points .n{font:600 13px var(--mono);color:var(--muted);padding-top:3px}
+.points li.done .n{color:var(--accent)} .points li.done span:last-child{color:var(--muted);text-decoration:line-through}
+.yours{color:var(--muted);font-size:15px;margin:0}
+/* things to say: hanging quotes, no boxes */
+.lines{list-style:none;margin:0;padding:0}
+.lines li{padding:12px 0}
+.lines .k{display:block;font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.lines li:first-child .k{color:var(--accent)}
+.lines q{display:block;font-family:var(--display);font-weight:var(--h1w);text-transform:var(--h1tt);font-size:22px;line-height:1.2;letter-spacing:var(--h1ls)}
+.more{display:flex;justify-content:space-between;align-items:center;min-height:52px;border-top:1px solid var(--line);font-size:15px}
+.more:last-of-type{border-bottom:1px solid var(--line)}
+.more span:last-child{color:var(--muted)}
+/* list screen */
+.tabs{display:flex;gap:24px;border-bottom:1px solid var(--line);margin:4px 0 8px}
+.tabs a{padding:12px 0;font:600 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.tabs a.on{color:var(--fg);box-shadow:inset 0 -2px 0 var(--accent)}
+.row{display:block;padding:16px 0;border-bottom:1px solid var(--line)}
+.row h3{font-family:var(--display);font-weight:var(--h1w);text-transform:var(--h1tt);letter-spacing:var(--h1ls);font-size:21px;line-height:1.15;margin:0 0 6px}
+.row .facts{font-size:13px}
+.group{margin-top:28px}
+.group > .meta{display:flex;justify-content:space-between}
+/* breakdown trail */
+.trail{list-style:none;margin:0;padding:0}
+.trail li{display:grid;grid-template-columns:20px 1fr;gap:10px;padding:6px 0;position:relative}
+.trail li::before{content:"";position:absolute;left:4px;top:20px;bottom:-8px;width:1px;background:var(--line)}
+.trail li:last-child::before{display:none}
+.trail .dot{width:9px;height:9px;border-radius:50%;background:var(--fg);margin-top:7px}
+.trail .todo .dot{background:transparent;border:1px solid var(--muted)}
+.trail .now .dot{background:var(--accent)}
+.trail b{font-weight:600;font-size:15px} .trail .now b{color:var(--accent)}
+.trail small{display:block;color:var(--muted);font-size:13px}
+.bits{margin:0;padding:0;list-style:none;counter-reset:b}
+.bits li{counter-increment:b;display:grid;grid-template-columns:34px 1fr;gap:8px;padding:14px 0;border-top:1px solid var(--line);line-height:1.55}
+.bits li::before{content:counter(b,decimal-leading-zero);font:600 13px var(--mono);color:var(--muted);padding-top:3px}
+.srcs{list-style:none;margin:0;padding:0}
+.srcs li{padding:12px 0;border-top:1px solid var(--line);font-size:15px}
+.srcs .off{font:600 10px var(--mono);letter-spacing:.14em;color:var(--accent);margin-right:6px}
+.srcs a{display:block;color:var(--muted);font-size:13px;margin-top:2px;text-decoration:underline;text-underline-offset:3px}
+.go{display:flex;justify-content:space-between;align-items:center;margin-top:28px;min-height:56px;padding:0 18px;
+    background:var(--accent);color:var(--bg);font:700 13px var(--mono);letter-spacing:.14em;text-transform:uppercase;border-radius:6px}
+</style></head><body>
+<header class="top"><span class="brand">Mouthpiece</span><small>D · Open type</small></header>
+<main><span class="meta">← Pillars</span>
+<h1>SEM</h1>
+<nav class="tabs"><a class="on">Videos · 16</a><a>News · 29</a></nav>
+<div class="group"><span class="meta"><span>Ready to record</span><span>3</span></span><a class="row"><h3>Google just admitted its conversion numbers aren&#x27;t proof</h3><div class="facts"><span>For <b>Business owners</b></span><span>~1:20</span><span>Not agreed</span></div></a><a class="row"><h3>Most marketing advice is filtered-out bullshit</h3><div class="facts"><span>For <b>Everyone</b></span><span>~1:40</span><span>Not agreed</span></div></a><a class="row"><h3>SKAGs vs STAGs — everyone says SKAGs are dead</h3><div class="facts"><span>For <b>Fellow marketers</b></span><span>~1:40</span><span>Not agreed</span></div></a></div><div class="group"><span class="meta"><span>Needs research</span><span>3</span></span><a class="row"><h3>The PMax issues I keep walking into</h3><div class="facts"><span>For <b>Business owners</b></span><span>~1:40</span><span>Not agreed</span></div></a><a class="row"><h3>Search campaign issues I see every week</h3><div class="facts"><span>For <b>Fellow marketers</b></span><span>~1:40</span><span>Not agreed</span></div></a><a class="row"><h3>Nobody checks their parameters</h3><div class="facts"><span>For <b>Juniors</b></span><span>~1:40</span><span>Not agreed</span></div></a></div></main></body></html>
