@@ -3,7 +3,7 @@
    deploy; offline you get the last copy. (Cache-first shell meant every update showed
    the OLD app on the first open after a deploy — changed 2026-10-08.) */
 
-const VERSION = "mouthpiece-v6";
+const VERSION = "mouthpiece-v7";
 const SHELL_CACHE = VERSION + "-shell";
 const DATA_CACHE = VERSION + "-data";
 
@@ -36,8 +36,11 @@ self.addEventListener("fetch", (event) => {
 
   // network-first for shell AND data: fresh when online, last-known when not
   const bucket = url.pathname.includes("/data/") ? DATA_CACHE : SHELL_CACHE;
+  // no-cache: revalidate with GitHub Pages instead of trusting its 10-minute max-age,
+  // so a fresh deploy shows on the very next open. (Fresh Request — navigate-mode
+  // requests can't be re-init'd with options.)
   event.respondWith(
-    fetch(event.request)
+    fetch(new Request(event.request.url, { cache: "no-cache" }))
       .then(res => {
         if (res.ok) {
           const copy = res.clone();
