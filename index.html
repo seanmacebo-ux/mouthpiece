@@ -16,47 +16,63 @@
 </head>
 <body>
 
-  <header class="topbar">
+  <header class="topbar" id="topbar">
     <h1 class="brand"><a href="#/">Mouthpiece</a></h1>
-    <a class="drop-btn" href="#/drop" aria-label="Throw an idea">+ Drop</a>
+    <span class="today-date" id="today-date"></span>
+    <a class="drop-btn" href="#/drop" aria-label="Throw an idea">+ Idea</a>
   </header>
 
-  <!-- HOME: four pillars -->
-  <main id="view-home" class="view" hidden>
-    <div id="pillar-tiles"></div>
-    <a id="unfiled-row" class="unfiled" href="#/pillar/unfiled" hidden></a>
+  <!-- TODAY: what needs Sean, ordered by urgency -->
+  <main id="view-today" class="view" hidden></main>
+
+  <!-- VIDEOS: all videos, pillar filter chips -->
+  <main id="view-videos" class="view" hidden>
+    <h2 class="view-title">Videos</h2>
+    <nav class="chips" id="videos-chips" aria-label="Filter by pillar"></nav>
+    <div id="videos-list"></div>
   </main>
 
-  <!-- PILLAR: two tabs — Videos (what you'll say) | News (what happened) -->
-  <main id="view-pillar" class="view" hidden>
-    <a class="back" href="#/">&larr; Pillars</a>
-    <h2 id="pillar-title" class="view-title"></h2>
-    <nav id="pillar-tabs" class="tabs" role="tablist" aria-label="Videos or news"></nav>
-    <div id="tab-videos"></div>
-    <div id="tab-news" hidden></div>
+  <!-- NEWS: all news, pillar filter chips -->
+  <main id="view-news" class="view" hidden>
+    <h2 class="view-title">News</h2>
+    <nav class="chips" id="news-chips" aria-label="Filter by pillar"></nav>
+    <div id="news-list"></div>
   </main>
 
   <!-- NEWS BREAKDOWN -->
-  <main id="view-news" class="view" hidden>
-    <a id="news-back" class="back" href="#/">&larr; News</a>
-    <article id="news-detail"></article>
+  <main id="view-item" class="view" hidden>
+    <a id="item-back" class="back" href="#/news">&larr; News</a>
+    <article id="item-detail"></article>
   </main>
 
   <!-- VIDEO (CARD) -->
-  <main id="view-card" class="view" hidden>
-    <a id="card-back" class="back" href="#/">&larr; Videos</a>
+  <main id="view-card" class="view has-actionbar" hidden>
+    <a id="card-back" class="back" href="#/videos">&larr; Videos</a>
     <article id="card-detail"></article>
   </main>
 
+  <!-- STUDIO: recording mode, nothing else on screen -->
+  <main id="view-studio" class="studio" hidden></main>
+
   <!-- DROP -->
   <main id="view-drop" class="view" hidden>
-    <a class="back" href="#/">&larr; Pillars</a>
+    <a class="back" href="#/">&larr; Today</a>
     <h2 class="view-title">Throw an idea</h2>
     <p class="hint">Raw. Unfiltered. Tap a pillar to file it — talking points come later.</p>
     <textarea id="drop-text" rows="5" placeholder="what's the idea…" autocomplete="off"></textarea>
     <div id="drop-pillars" class="drop-pillars"></div>
     <button id="drop-skip" type="button">Drop it — file later</button>
   </main>
+
+  <!-- sticky action bar (video card) -->
+  <div class="actionbar" id="actionbar" hidden></div>
+
+  <!-- bottom nav -->
+  <nav class="bottomnav" id="bottomnav" aria-label="Main">
+    <a href="#/" data-tab="today">Today</a>
+    <a href="#/videos" data-tab="videos">Videos</a>
+    <a href="#/news" data-tab="news">News</a>
+  </nav>
 
   <script src="app.js"></script>
 </body>

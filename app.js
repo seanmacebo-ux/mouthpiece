@@ -1,8 +1,9 @@
 /* MOUTHPIECE — vanilla JS, no build step.
-   Two things per pillar, nothing else:
-     NEWS   = what happened. Items Claude has read carry a brief (synopsis + the interesting bits + sources),
-              and every item shows a trail of where it's at.
-     VIDEOS = what Sean says about it. Each names who it's for, where it goes, and whether Sean has agreed it.
+   Council design (Codex + Antigravity, 2026-10-09): action-first.
+     TODAY  = what needs Sean, by urgency: record next → needs your OK → news worth your time.
+     VIDEOS = every video, pillar as a filter chip. Card leads with the take ("What I'd tell a client"),
+              sticky Agree bar, then Studio mode for recording.
+     NEWS   = every item, pillar as a filter chip. Broken-down items open a breakdown.
    A video is READY only when Sean has agreed it AND it has receipts.
    Data = data/cards.json + data/news.json (canonical)
    + localStorage overlay (agreed, recorded, skip, point ticks, dropped ideas, pillar assignments). */
@@ -15,26 +16,18 @@
     beats:  "mouthpiece.beats.v1",  // { cardId: [bool, ...] }
     drops:  "mouthpiece.drops.v1",  // [ card, ... ] (type "idea", beats [])
     pillar: "mouthpiece.pillar.v1", // { cardId: "SEM"|"SEO"|"SMA"|"AI" } — assigns a pillar to unfiled drops
-    stage:  "mouthpiece.stage.v1",  // { cardId: "recorded" } — only recorded matters now
+    stage:  "mouthpiece.stage.v1",  // { cardId: "recorded" }
     agree:  "mouthpiece.agree.v1",  // { cardId: "YYYY-MM-DD" } — Sean signed off on this video
   };
 
   const PILLARS = ["SEM", "SEO", "SMA", "AI"];
-  const PILLAR_SUB = {
-    SEM: "Google Ads + Microsoft Ads",
-    SEO: "Organic, local, and AI answers",
-    SMA: "Meta, TikTok, LinkedIn",
-    AI:  "How a marketer actually uses it",
-  };
   const PLATFORM_LABEL = { tiktok: "TikTok", meta: "Reels", linkedin: "LinkedIn" };
-  // Legacy topic → pillar (old drops in localStorage may still carry a topic).
   const TOPIC_TO_PILLAR = { "paid-media": "SEM", "seo": "SEO", "ai": "AI", "content": "SEO", "social-ads": "SMA" };
-
-  // Talk-time estimate: a talking point riffed on camera runs ~20s.
-  const SECONDS_PER_POINT = 20;
+  const SECONDS_PER_POINT = 20; // a talking point riffed on camera runs ~20s
 
   let cards = [];
   let news = [];
+  let wakeLock = null;
 
   // ---- storage helpers (fail-open: app must work with storage blocked) ----
 
@@ -59,11 +52,7 @@
   }
 
   async function loadData() {
-    const [baseCards, baseNews] = await Promise.all([
-      fetchJson("data/cards.json"),
-      fetchJson("data/news.json"),
-    ]);
-
+    const [baseCards, baseNews] = await Promise.all([fetchJson("data/cards.json"), fetchJson("data/news.json")]);
     const drops = lsGet(LS.drops, []);
     const statusOverlay = lsGet(LS.status, {});
     const pillarOverlay = lsGet(LS.pillar, {});
@@ -81,16 +70,12 @@
       };
     });
     cards.sort((a, b) => (b.created || "").localeCompare(a.created || ""));
-
     news = Array.isArray(baseNews) ? baseNews : [];
   }
 
   function has(arr) { return Array.isArray(arr) && arr.length > 0; }
 
-  // Where a video sits:
-  //   ready    = Sean agreed it + it has talking points + receipts
-  //   signoff  = has talking points + receipts, waiting on Sean
-  //   research = missing receipts (or talking points)
+  // ready = agreed + talking points + receipts · signoff = researched, waiting on Sean · research = no receipts
   function videoState(c) {
     if (c.status === "skipped") return "skipped";
     if (c.recorded) return "recorded";
@@ -101,70 +86,58 @@
   }
 
   function setAgreed(id, on) {
-    const overlay = lsGet(LS.agree, {});
-    if (on) overlay[id] = new Date().toISOString().slice(0, 10); else delete overlay[id];
-    lsSet(LS.agree, overlay);
-    const card = cards.find(c => c.id === id);
-    if (card) card.agreed = on ? overlay[id] : null;
+    const o = lsGet(LS.agree, {});
+    if (on) o[id] = new Date().toISOString().slice(0, 10); else delete o[id];
+    lsSet(LS.agree, o);
+    const c = cards.find(x => x.id === id);
+    if (c) c.agreed = on ? o[id] : null;
   }
-
   function setRecorded(id, on) {
-    const overlay = lsGet(LS.stage, {});
-    if (on) overlay[id] = "recorded"; else delete overlay[id];
-    lsSet(LS.stage, overlay);
-    // clear a legacy "recorded" status so un-recording sticks
-    const status = lsGet(LS.status, {});
-    if (status[id] === "recorded") { status[id] = "fresh"; lsSet(LS.status, status); }
-    const card = cards.find(c => c.id === id);
-    if (card) { card.recorded = on; if (card.status === "recorded") card.status = "fresh"; }
+    const o = lsGet(LS.stage, {});
+    if (on) o[id] = "recorded"; else delete o[id];
+    lsSet(LS.stage, o);
+    const s = lsGet(LS.status, {});
+    if (s[id] === "recorded") { s[id] = "fresh"; lsSet(LS.status, s); }
+    const c = cards.find(x => x.id === id);
+    if (c) { c.recorded = on; if (c.status === "recorded") c.status = "fresh"; }
   }
-
   function setStatus(id, status) {
-    const overlay = lsGet(LS.status, {});
-    overlay[id] = status;
-    lsSet(LS.status, overlay);
-    const card = cards.find(c => c.id === id);
-    if (card) card.status = status;
+    const o = lsGet(LS.status, {});
+    o[id] = status;
+    lsSet(LS.status, o);
+    const c = cards.find(x => x.id === id);
+    if (c) c.status = status;
   }
-
   function setPillar(id, pillar) {
-    const overlay = lsGet(LS.pillar, {});
-    overlay[id] = pillar;
-    lsSet(LS.pillar, overlay);
-    const card = cards.find(c => c.id === id);
-    if (card) card.pillar = pillar;
+    const o = lsGet(LS.pillar, {});
+    o[id] = pillar;
+    lsSet(LS.pillar, o);
+    const c = cards.find(x => x.id === id);
+    if (c) c.pillar = pillar;
   }
-
   function getTicks(id, len) {
     const all = lsGet(LS.beats, {});
-    const ticks = Array.isArray(all[id]) ? all[id] : [];
-    return Array.from({ length: len }, (_, i) => !!ticks[i]);
+    const t = Array.isArray(all[id]) ? all[id] : [];
+    return Array.from({ length: len }, (_, i) => !!t[i]);
   }
-  function toggleTick(id, index, len) {
+  function toggleTick(id, i, len) {
     const all = lsGet(LS.beats, {});
-    const ticks = getTicks(id, len);
-    ticks[index] = !ticks[index];
-    all[id] = ticks;
+    const t = getTicks(id, len);
+    t[i] = !t[i];
+    all[id] = t;
     lsSet(LS.beats, all);
-    return ticks[index];
+    return t[i];
   }
 
   function addDrop(text, pillar) {
     const now = new Date();
     const card = {
-      id: "drop-" + now.getTime(),
-      created: now.toISOString().slice(0, 10),
-      type: "idea",
-      pillar: pillar || null,
-      subject: null,
+      id: "drop-" + now.getTime(), created: now.toISOString().slice(0, 10), type: "idea",
+      pillar: pillar || null, subject: null,
       title: text.length > 64 ? text.slice(0, 61).trimEnd() + "…" : text,
-      story: text,
-      source: null,
-      angle: null,
-      beats: [],
+      story: text, source: null, angle: null, beats: [],
       note: "Talking points pending — talk it through with Claude.",
-      status: "fresh",
-      platforms: ["tiktok", "linkedin", "meta"],
+      status: "fresh", platforms: ["tiktok", "linkedin", "meta"],
     };
     const drops = lsGet(LS.drops, []);
     drops.unshift(card);
@@ -175,70 +148,44 @@
 
   // ---- derived labels ----
 
+  // The take = one sentence Sean would say to a client. Until he writes one, use the
+  // first sentence of the angle (the opinion), not the synopsis (the summary).
+  const firstSentence = s => (s || "").split(/(?<=[.!?])\s+/)[0];
+  const take = c => c.take || firstSentence(c.angle) || c.synopsis || c.story || "";
   function talkSeconds(c) {
-    const points = (has(c.beats) ? c.beats.length : 0) + (has(c.your_points) ? c.your_points.length : 0);
-    return points * SECONDS_PER_POINT;
+    return ((has(c.beats) ? c.beats.length : 0) + (has(c.your_points) ? c.your_points.length : 0)) * SECONDS_PER_POINT;
   }
-  function fmtTime(s) {
-    const m = Math.floor(s / 60), r = s % 60;
-    return "~" + m + ":" + String(r).padStart(2, "0");
-  }
+  function fmtTime(s) { return "~" + Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
   function whereLabel(c) {
     const p = (c.platforms || []).map(x => PLATFORM_LABEL[x]).filter(Boolean);
     return p.length ? p.join(" + ") : null;
   }
   function stateLabel(c) {
-    return { ready: "Agreed", signoff: "Not agreed", research: "Needs research",
+    return { ready: "Agreed", signoff: "Waiting on your OK", research: "Needs research",
              recorded: "Recorded", skipped: "Skipped" }[videoState(c)];
   }
   function fmtDate(d) {
     if (!d) return "";
-    const dt = new Date(d + "T00:00:00");
+    const dt = new Date(d.length === 10 ? d + "T00:00:00" : d);
     return isNaN(dt) ? d : dt.toLocaleDateString("en-ZA", { day: "numeric", month: "short" });
   }
+  const newsRank = n => (n.brief ? 0 : 2) + (n.official ? 0 : 1);
+  const sortNews = list => list.slice().sort((a, b) => newsRank(a) - newsRank(b) || (b.date || "").localeCompare(a.date || ""));
 
-  // ---- counts ----
-
-  function pillarNews(p) {
-    return news.filter(n => n.pillar === p && n.status !== "ignored");
-  }
-
-  function pillarCounts(p) {
-    const inPillar = cards.filter(c => c.pillar === p);
-    const n = s => inPillar.filter(c => videoState(c) === s).length;
-    return { ready: n("ready"), signoff: n("signoff"), research: n("research"), news: pillarNews(p).length };
-  }
-
-  // ---- rendering helpers ----
+  // ---- DOM helpers ----
 
   const $ = sel => document.querySelector(sel);
-
   function el(tag, cls, text) {
-    const node = document.createElement(tag);
-    if (cls) node.className = cls;
-    if (text != null) node.textContent = text;
-    return node;
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
   }
-
-  function urlHost(url) {
-    try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
-  }
-
-  function extLink(cls, text, url) {
-    const a = el("a", cls, text);
-    a.href = url; a.target = "_blank"; a.rel = "noopener";
-    return a;
-  }
-
+  function link(cls, text, href) { const a = el("a", cls, text); a.href = href; return a; }
+  function extLink(cls, text, url) { const a = link(cls, text, url); a.target = "_blank"; a.rel = "noopener"; return a; }
+  function urlHost(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return u; } }
   function label(text) { return el("span", "label", text); }
-
-  function sec(title, ...children) {
-    const s = el("div", "sec");
-    s.append(label(title), ...children);
-    return s;
-  }
-
-  // facts line: [["For", "Business owners"], [null, "~1:20"]]
+  function sec(title, ...kids) { const s = el("div", "sec"); s.append(label(title), ...kids); return s; }
   function factsLine(parts) {
     const d = el("div", "facts");
     parts.filter(p => p && p[1]).forEach(([pre, val, cls]) => {
@@ -249,262 +196,247 @@
     });
     return d;
   }
+  function metaLine(...bits) { return el("div", "meta", bits.filter(Boolean).join(" · ")); }
 
-  // ---- home ----
+  // ---- rows ----
 
-  function renderHome() {
-    $("#pillar-tiles").replaceChildren(...PILLARS.map(p => {
-      const n = pillarCounts(p);
-      const a = el("a", "pillar-row");
-      a.href = "#/pillar/" + p;
-      a.append(el("h2", null, p), el("p", null, PILLAR_SUB[p]));
-      a.append(factsLine([
-        [null, n.ready + " ready", n.ready ? "hot" : null],
-        [null, n.signoff + " need your OK"],
-        [null, n.research + " need research"],
-        [null, n.news + " news"],
-      ]));
-      return a;
-    }));
-
-    const unfiled = cards.filter(c => !c.pillar && videoState(c) !== "skipped" && !c.recorded);
-    const row = $("#unfiled-row");
-    row.hidden = unfiled.length === 0;
-    row.textContent = unfiled.length + " unfiled drop" + (unfiled.length === 1 ? "" : "s") + " — tap to file";
-  }
-
-  // ---- pillar view: Videos | News ----
-
-  function videoRow(c, fromPillar) {
+  function videoRow(c) {
     const li = el("li");
-    const a = el("a", "row");
-    a.href = "#/card/" + encodeURIComponent(c.id) + (fromPillar ? "?from=" + fromPillar : "");
+    const a = link("row", null, "#/card/" + encodeURIComponent(c.id));
     const secs = talkSeconds(c);
-    a.append(el("h3", null, c.title), factsLine([
-      ["For", c.audience],
-      [null, secs ? fmtTime(secs) : null],
-      [null, stateLabel(c)],
-    ]));
+    a.append(
+      metaLine(c.pillar || "Unfiled", c.audience ? "For " + c.audience : null),
+      el("h3", null, c.title),
+      el("p", null, take(c)),
+      factsLine([[null, secs ? fmtTime(secs) : null], [null, stateLabel(c), "need"]]),
+    );
     li.append(a);
     return li;
   }
 
-  function group(title, hint, list, fromPillar, folded) {
+  function newsRow(n) {
+    const li = el("li");
+    const a = link("row", null, "#/news/" + encodeURIComponent(n.id));
+    a.append(
+      metaLine(n.official ? "Official" : null, n.source, fmtDate(n.date), n.pillar),
+      el("h3", null, n.title),
+    );
+    if (n.brief) {
+      a.append(el("p", null, n.brief.bits && n.brief.bits[0] ? n.brief.bits[0] : n.brief.synopsis));
+      a.append(factsLine([[null, "Breakdown ready", "need"]]));
+    } else if (n.note) {
+      a.append(el("p", null, n.note));
+    }
+    li.append(a);
+    return li;
+  }
+
+  function feed(items, rowFn) {
+    const ul = el("ul", "feed");
+    ul.append(...items.map(rowFn));
+    return ul;
+  }
+
+  // ---- TODAY ----
+
+  function renderToday() {
+    const root = $("#view-today");
+    const live = cards.filter(c => c.pillar);
+    const ready = live.filter(c => videoState(c) === "ready");
+    const waiting = live.filter(c => videoState(c) === "signoff");
+    const unfiled = cards.filter(c => !c.pillar && !["skipped", "recorded"].includes(videoState(c)));
+
+    const head = el("div", "desk-head");
+    head.append(el("h2", null, "On your desk"),
+      el("p", null, ready.length + " ready to record · " + waiting.length + " waiting on your OK"));
+    root.replaceChildren(head);
+
+    // lead: record next if anything's agreed, otherwise review next
+    const lead = ready[0] || waiting[0];
+    if (lead) {
+      const isRecord = videoState(lead) === "ready";
+      const box = el("section", "lead");
+      box.append(
+        el("span", "label", isRecord ? "Record next" : "Review next"),
+        metaLine(lead.pillar, lead.audience ? "For " + lead.audience : null, whereLabel(lead)),
+        el("h3", null, lead.title),
+        el("p", "take", take(lead)),
+      );
+      const btn = link("primary", null, isRecord ? "#/studio/" + encodeURIComponent(lead.id) : "#/card/" + encodeURIComponent(lead.id));
+      btn.append(el("span", null, isRecord ? "Enter studio" : "Review & agree"), el("span", null, "→"));
+      box.append(btn);
+      root.append(box);
+    } else {
+      root.append(el("p", "quiet", "Nothing researched yet. Ask Claude to research a video."));
+    }
+
+    const moreReady = ready.slice(1, 4);
+    if (moreReady.length) root.append(block("Ready to record", "#/videos", "All " + ready.length, feed(moreReady, videoRow)));
+
+    const moreWaiting = waiting.filter(c => c !== lead).slice(0, 3);
+    if (moreWaiting.length) root.append(block("Needs your OK", "#/videos", "All " + waiting.length, feed(moreWaiting, videoRow)));
+
+    const briefed = sortNews(news.filter(n => n.brief)).slice(0, 2);
+    const fresh = briefed.length >= 2 ? briefed : briefed.concat(sortNews(news.filter(n => !n.brief && n.official)).slice(0, 2 - briefed.length));
+    if (fresh.length) root.append(block("News worth your time", "#/news", "All " + news.length, feed(fresh, newsRow)));
+
+    if (unfiled.length) root.append(block("Unfiled ideas", "#/videos", null, feed(unfiled, videoRow)));
+  }
+
+  function block(title, href, linkText, content) {
+    const b = el("section", "block");
+    const h = el("div", "block-head");
+    h.append(label(title));
+    if (linkText) h.append(link(null, linkText + " →", href));
+    b.append(h, content);
+    return b;
+  }
+
+  // ---- chips ----
+
+  function chips(container, base, current) {
+    container.replaceChildren(...["All", ...PILLARS].map(p => {
+      const on = (p === "All" && !current) || p === current;
+      return link("chip" + (on ? " on" : ""), p, p === "All" ? base : base + "/" + p);
+    }));
+  }
+
+  // ---- VIDEOS ----
+
+  function group(title, list, folded) {
     const wrap = el(folded ? "details" : "section", "group");
     const head = el(folded ? "summary" : "span", "label");
     head.append(el("span", null, title + " · " + list.length));
     wrap.append(head);
-    if (hint && !folded) wrap.append(el("p", "group-hint", hint));
-    if (list.length) {
-      const ul = el("ul", "feed");
-      ul.append(...list.map(c => videoRow(c, fromPillar)));
-      wrap.append(ul);
-    } else if (!folded) {
-      wrap.append(el("p", "quiet", "Nothing here yet."));
-    }
+    if (list.length) wrap.append(feed(list, videoRow));
+    else if (!folded) wrap.append(el("p", "quiet", "Nothing here."));
     return wrap;
   }
 
-  function renderVideos(p) {
-    const isUnfiled = p === "unfiled";
-    const inPillar = cards.filter(c => (isUnfiled ? !c.pillar : c.pillar === p));
-    const by = s => inPillar.filter(c => videoState(c) === s);
-    const from = isUnfiled ? "unfiled" : p;
-    $("#tab-videos").replaceChildren(
-      group("Ready to record", "You've agreed these and they have receipts.", by("ready"), from, false),
-      group("Needs your OK", "Researched, with receipts. Read it, then agree or change it.", by("signoff"), from, false),
-      group("Needs research", "No receipts yet — Claude researches before you record.", by("research"), from, false),
-      group("Recorded", null, by("recorded"), from, true),
-      group("Skipped", null, by("skipped"), from, true),
-    );
-  }
-
-  // Broken-down items first, then official sources, newest first within each.
-  function newsRank(n) { return (n.brief ? 0 : 2) + (n.official ? 0 : 1); }
-
-  function renderNews(p) {
-    const items = pillarNews(p).slice().sort((a, b) =>
-      newsRank(a) - newsRank(b) || (b.date || "").localeCompare(a.date || ""));
-    if (!items.length) {
-      $("#tab-news").replaceChildren(el("p", "quiet", "No news for this pillar yet."));
-      return;
-    }
-    const ul = el("ul", "feed");
-    ul.append(...items.map(n => {
-      const li = el("li");
-      const a = el("a", "row");
-      a.href = "#/news/" + encodeURIComponent(n.id);
-      a.append(el("h3", null, n.title));
-      if (n.brief) a.append(el("p", null, n.brief.synopsis));
-      a.append(factsLine([
-        [null, (n.official ? "Official · " : "") + (n.source || ""), n.official ? "official" : null],
-        [null, fmtDate(n.date)],
-        [null, n.brief ? "Breakdown ready" : "Headline only"],
-      ]));
-      li.append(a);
-      return li;
-    }));
-    $("#tab-news").replaceChildren(ul);
-  }
-
-  function renderPillar(p, tab) {
-    const isUnfiled = p === "unfiled";
-    $("#pillar-title").textContent = isUnfiled ? "Unfiled drops" : p;
-
-    const tabs = $("#pillar-tabs");
-    tabs.hidden = isUnfiled;
-    const showNews = !isUnfiled && tab === "news";
-
-    if (!isUnfiled) {
-      const videoCount = cards.filter(c => c.pillar === p && ["ready", "signoff", "research"].includes(videoState(c))).length;
-      tabs.replaceChildren(
-        tabLink("Videos · " + videoCount, "#/pillar/" + p, !showNews),
-        tabLink("News · " + pillarNews(p).length, "#/pillar/" + p + "/news", showNews),
-      );
-    }
-
-    $("#tab-videos").hidden = showNews;
-    $("#tab-news").hidden = !showNews;
-    if (showNews) renderNews(p); else renderVideos(p);
-  }
-
-  function tabLink(text, href, on) {
-    const a = el("a", "tab" + (on ? " on" : ""), text);
-    a.href = href;
-    a.setAttribute("role", "tab");
-    a.setAttribute("aria-selected", String(on));
-    return a;
-  }
-
-  // ---- news breakdown view ----
-
-  // Where this news item is at: pulled in → Claude read it → breakdown → talk it through → video.
-  function newsTrail(n) {
-    const b = n.brief;
-    const card = n.card ? cards.find(c => c.id === n.card) : null;
-    const official = b && has(b.sources) ? b.sources.find(s => s.official) : null;
-    const steps = [
-      ["Pulled in", [fmtDate(n.date), n.source].filter(Boolean).join(" · "), "done"],
-      ["Claude read it", b ? [fmtDate(b.read), official ? "the platform's own docs" : "the source"].filter(Boolean).join(" · ") : "Not yet", b ? "done" : "now"],
-      ["Breakdown written", b ? fmtDate(b.read) : "—", b ? "done" : "todo"],
+  function renderVideos(pillar) {
+    chips($("#videos-chips"), "#/videos", pillar);
+    const pool = pillar ? cards.filter(c => c.pillar === pillar) : cards;
+    const by = s => pool.filter(c => c.pillar && videoState(c) === s);
+    const unfiled = pillar ? [] : cards.filter(c => !c.pillar && !["skipped", "recorded"].includes(videoState(c)));
+    const parts = [
+      group("Needs your OK", by("signoff"), false),
+      group("Ready to record", by("ready"), false),
+      group("Needs research", by("research"), true),
     ];
-    const agreed = card && card.agreed;
-    steps.push(["Talk it through", agreed ? "Done — you agreed the video" : (b ? "Waiting on you" : "—"),
-      agreed ? "done" : (b ? "now" : "todo")]);
-    steps.push(["Video", card ? stateLabel(card) === "Not agreed" ? "Claude's draft" : stateLabel(card) : "None yet",
-      card && card.recorded ? "done" : "todo"]);
-    const ul = el("ul", "trail");
-    steps.forEach(([t, d, s]) => {
-      const li = el("li", s);
-      const txt = el("span");
-      txt.append(el("b", null, t), el("small", null, d));
-      li.append(el("span", "dot"), txt);
-      ul.append(li);
-    });
-    return ul;
+    if (unfiled.length) parts.push(group("Unfiled ideas", unfiled, false));
+    parts.push(group("Recorded + skipped", by("recorded").concat(by("skipped")), true));
+    $("#videos-list").replaceChildren(...parts);
   }
 
-  function renderNewsDetail(id) {
+  // ---- NEWS ----
+
+  function renderNews(pillar) {
+    chips($("#news-chips"), "#/news", pillar);
+    const items = sortNews(news.filter(n => n.status !== "ignored" && (!pillar || n.pillar === pillar)));
+    const briefed = items.filter(n => n.brief);
+    const rest = items.filter(n => !n.brief);
+    const parts = [];
+    if (briefed.length) {
+      const s = el("section", "group");
+      s.append(el("span", "label", "Broken down · " + briefed.length), feed(briefed, newsRow));
+      parts.push(s);
+    }
+    const s2 = el("section", "group");
+    s2.append(el("span", "label", "Headlines only · " + rest.length), feed(rest, newsRow));
+    parts.push(s2);
+    $("#news-list").replaceChildren(...parts);
+  }
+
+  function renderItem(id) {
     const n = news.find(x => x.id === id);
-    const root = $("#news-detail");
-    $("#news-back").href = n ? "#/pillar/" + n.pillar + "/news" : "#/";
+    const root = $("#item-detail");
+    $("#item-back").href = n ? "#/news/" + n.pillar : "#/news";
     if (!n) { root.replaceChildren(el("p", "empty", "News item not found.")); return; }
 
-    const meta = el("div", "meta");
-    if (n.official) meta.append(el("span", "hi", "Official · "));
-    meta.append([n.source, fmtDate(n.date)].filter(Boolean).join(" · "));
-    root.replaceChildren(meta, el("h1", null, n.title), sec("Where this is at", newsTrail(n)));
-
+    root.replaceChildren(metaLine(n.official ? "Official" : null, n.source, fmtDate(n.date), n.pillar), el("h1", null, n.title));
     const b = n.brief;
-    if (!b) {
+    const card = n.card ? cards.find(c => c.id === n.card) : null;
+
+    if (b) {
+      root.append(sec("Synopsis", el("p", "syn", b.synopsis)));
+      if (has(b.bits)) {
+        const ol = el("ol", "bits");
+        b.bits.forEach(t => ol.append(el("li", null, t)));
+        root.append(sec("The interesting bits", ol));
+      }
+      if (has(b.sources)) {
+        const ul = el("ul", "srcs");
+        b.sources.forEach(s => {
+          const li = el("li");
+          if (s.official) li.append(el("span", "off", "OFFICIAL"));
+          li.append(s.label);
+          if (s.url) li.append(el("br"), extLink("src-link", "Open source", s.url));
+          ul.append(li);
+        });
+        root.append(sec("What Claude read", ul));
+      }
+      if (card) {
+        const a = link("primary", null, "#/card/" + encodeURIComponent(card.id));
+        a.append(el("span", null, "The video draft"), el("span", null, "→"));
+        const w = el("div", "sec");
+        w.append(a);
+        root.append(w);
+      }
+    } else {
       root.append(sec("Breakdown", el("p", "quiet", "Not broken down yet — ask Claude to read it.")));
       if (n.url) {
-        const srcs = el("ul", "srcs");
+        const ul = el("ul", "srcs");
         const li = el("li", null, n.source || urlHost(n.url));
         li.append(el("br"), extLink("src-link", "Open source", n.url));
-        srcs.append(li);
-        root.append(sec("Source", srcs));
-      }
-      return;
-    }
-
-    root.append(sec("Synopsis", el("p", "syn", b.synopsis)));
-
-    if (has(b.bits)) {
-      const ol = el("ol", "bits");
-      b.bits.forEach(t => ol.append(el("li", null, t)));
-      root.append(sec("The interesting bits", ol));
-    }
-
-    if (has(b.sources)) {
-      const ul = el("ul", "srcs");
-      b.sources.forEach(s => {
-        const li = el("li");
-        if (s.official) li.append(el("span", "off", "OFFICIAL"));
-        li.append(s.label);
-        if (s.url) li.append(el("br"), extLink("src-link", "Open source", s.url));
         ul.append(li);
-      });
-      root.append(sec("What Claude read", ul));
+        root.append(sec("Source", ul));
+      }
     }
 
-    if (n.card && cards.some(c => c.id === n.card)) {
-      const a = el("a", "go");
-      a.href = "#/card/" + encodeURIComponent(n.card) + "?from=" + n.pillar;
-      a.append(el("span", null, "The video draft"), el("span", null, "→"));
-      root.append(a);
-    }
+    // where this is at — compact, at the bottom (the breakdown comes first)
+    const agreed = card && card.agreed;
+    const steps = [
+      ["Pulled in", "done"],
+      ["Claude read it", b ? "done" : "now"],
+      ["Breakdown", b ? "done" : ""],
+      ["Talk it through", agreed ? "done" : (b ? "now" : "")],
+      ["Video", card && card.recorded ? "done" : (agreed ? "now" : "")],
+    ];
+    const ul = el("ul", "trail");
+    steps.forEach(([t, s]) => ul.append(el("li", s || null, t)));
+    root.append(sec("Where this is at", ul));
   }
 
-  // ---- video (card) view ----
+  // ---- VIDEO (card) ----
 
-  function renderCard(id, from) {
+  function renderCard(id) {
     const c = cards.find(x => x.id === id);
     const root = $("#card-detail");
-    const backTo = from || (c && c.pillar) || (c && !c.pillar ? "unfiled" : null);
-    $("#card-back").href = backTo ? "#/pillar/" + backTo : "#/";
+    $("#card-back").href = c && c.pillar ? "#/videos/" + c.pillar : "#/videos";
     if (!c) { root.replaceChildren(el("p", "empty", "Video not found.")); return; }
 
-    const state = videoState(c);
-    const meta = el("div", "meta");
-    if (c.pillar) meta.append(el("span", "hi", c.pillar));
-    if (c.subject) meta.append(" · " + c.subject.replace(/-/g, " "));
-    root.replaceChildren(meta, el("h1", null, c.title));
-
     const secs = talkSeconds(c);
-    root.append(factsLine([
-      ["For", c.audience],
-      [null, whereLabel(c)],
-      [null, secs ? fmtTime(secs) : null],
-    ]));
+    root.replaceChildren(
+      metaLine(c.pillar || "Unfiled", c.subject ? c.subject.replace(/-/g, " ") : null),
+      el("h1", null, c.title),
+      factsLine([["For", c.audience], [null, whereLabel(c)], [null, secs ? fmtTime(secs) : null]]),
+    );
 
-    // agreement — the consensus line
-    if (state !== "skipped") {
-      const ag = el("div", "agree" + (c.agreed ? " yes" : ""));
-      const txt = c.agreed ? "You agreed this · " + fmtDate(c.agreed)
-        : (state === "research" ? "Claude's draft · needs research before you agree" : "Claude's draft · you haven't agreed this yet");
-      const btn = el("button", null, c.agreed ? "Undo" : "Agree →");
-      btn.type = "button";
-      btn.addEventListener("click", () => { setAgreed(c.id, !c.agreed); renderCard(c.id, from); });
-      ag.append(el("span", null, txt), btn);
-      root.append(ag);
-    }
+    const tb = el("div", "take-block");
+    tb.append(label(c.take ? "What I'd tell a client" : "What I'd tell a client · Claude's draft"), el("p", null, take(c)));
+    root.append(tb);
 
-    // unfiled drop: one tap files it under a pillar
     if (!c.pillar) {
-      const row = el("div", "drop-pillars");
+      const row = el("div", "file-under");
       PILLARS.forEach(p => {
-        const b = el("button", "pillar-btn", p);
+        const b = el("button", null, p);
         b.type = "button";
-        b.addEventListener("click", () => { setPillar(c.id, p); location.hash = "#/pillar/" + p; });
+        b.addEventListener("click", () => { setPillar(c.id, p); renderCard(c.id); });
         row.append(b);
       });
       root.append(sec("File under", row));
     }
 
-    root.append(sec("Synopsis", el("p", "syn", c.synopsis || c.story)));
-
-    // my talking points — numbered, tick as you nail them
     if (has(c.beats)) {
       const ul = el("ul", "points");
       const ticks = getTicks(c.id, c.beats.length);
@@ -522,17 +454,17 @@
         li.append(btn);
         ul.append(li);
       });
-      root.append(sec("My talking points", ul));
+      root.append(sec("Talking points", ul));
     } else {
-      root.append(sec("My talking points", el("p", "quiet", c.note || "Talking points pending — talk it through with Claude.")));
+      root.append(sec("Talking points", el("p", "quiet", c.note || "Talking points pending — talk it through with Claude.")));
     }
 
     if (has(c.your_points)) {
       const ul = el("ul", "plain");
       c.your_points.forEach(t => ul.append(el("li", null, t)));
-      root.append(sec("Your points", ul));
+      root.append(sec("Sean's additions", ul));
     } else {
-      root.append(sec("Your points", el("p", "quiet", "Nothing yet. Tell Claude what you want said.")));
+      root.append(sec("Sean's additions", el("p", "quiet", "Nothing yet. Tell Claude what you want said.")));
     }
 
     if (has(c.lines)) {
@@ -542,17 +474,13 @@
         li.append(el("span", "label k", l.kind || ""), el("q", null, l.text || l));
         ul.append(li);
       });
-      root.append(sec("Things to say", ul));
-    } else {
-      root.append(sec("Things to say", el("p", "quiet", "Hook, punch line and closer — once we've talked it through.")));
+      root.append(sec("Hook · punch · closer", ul));
     }
 
-    // folded extras: receipts, the angle, the breakdown link
     const extras = el("div", "sec");
     const r = el("details", "more");
     const rs = el("summary");
     rs.append(el("span", null, "Receipts"), el("span", null, (has(c.facts) ? c.facts.length : 0) + " +"));
-    r.append(rs);
     const rb = el("div", "more-body");
     if (has(c.facts)) {
       const ul = el("ul", "facts-list");
@@ -565,108 +493,183 @@
     } else {
       rb.append(el("p", "quiet", "No receipts yet — research with Claude before recording."));
     }
-    r.append(rb);
+    r.append(rs, rb);
     extras.append(r);
-
     if (c.angle) {
       const d = el("details", "more");
       const s = el("summary");
-      s.append(el("span", null, "The angle"), el("span", null, "+"));
+      s.append(el("span", null, "The full angle"), el("span", null, "+"));
       d.append(s, el("p", "more-body", c.angle));
       extras.append(d);
     }
     if (c.newsRef && news.some(n => n.id === c.newsRef)) {
-      const a = el("a", "more");
-      a.href = "#/news/" + encodeURIComponent(c.newsRef);
-      a.append(el("span", null, "The breakdown this came from"), el("span", null, "→"));
+      const a = link("more", null, "#/news/" + encodeURIComponent(c.newsRef));
+      a.append(el("span", null, "The news breakdown"), el("span", null, "→"));
       extras.append(a);
     }
     root.append(extras);
 
-    // actions: recorded toggle + skip off-ramp
-    const actions = el("div", "actions");
-    if (state !== "skipped") {
-      const rec = el("button", "rec", c.recorded ? "Not recorded yet" : "Mark recorded");
-      rec.type = "button";
-      rec.addEventListener("click", () => { setRecorded(c.id, !c.recorded); renderCard(c.id, from); });
-      actions.append(rec);
-    }
-    const skip = el("button", state === "skipped" ? "rec" : "skip", state === "skipped" ? "Bring it back" : "Skip");
-    skip.type = "button";
-    skip.addEventListener("click", () => {
-      if (state === "skipped") { setStatus(c.id, "fresh"); renderCard(c.id, from); }
-      else { setStatus(c.id, "skipped"); location.hash = backTo ? "#/pillar/" + backTo : "#/"; }
-    });
-    actions.append(skip);
-    root.append(actions);
+    renderActionbar(c);
   }
 
-  // ---- drop view ----
+  function renderActionbar(c) {
+    const bar = $("#actionbar");
+    const st = videoState(c);
+    const ghost = (text, fn, danger) => {
+      const b = el("button", "ghost" + (danger ? " danger" : ""), text);
+      b.type = "button";
+      b.addEventListener("click", fn);
+      return b;
+    };
+    const rerender = () => renderCard(c.id);
+    bar.replaceChildren();
+    if (st === "signoff") {
+      const p = el("button", "primary");
+      p.type = "button";
+      p.append(el("span", null, "Agree this version"), el("span", null, "✓"));
+      p.addEventListener("click", () => { setAgreed(c.id, true); rerender(); });
+      bar.append(p, ghost("Skip", () => { setStatus(c.id, "skipped"); rerender(); }, true));
+    } else if (st === "ready") {
+      bar.append(ghost("Undo OK", () => { setAgreed(c.id, false); rerender(); }));
+      const p = link("primary", null, "#/studio/" + encodeURIComponent(c.id));
+      p.append(el("span", null, "Enter studio"), el("span", null, "→"));
+      bar.append(p);
+    } else if (st === "research") {
+      bar.append(el("span", "state", "Needs receipts before you agree. Ask Claude to research it."),
+        ghost("Skip", () => { setStatus(c.id, "skipped"); rerender(); }, true));
+    } else if (st === "recorded") {
+      bar.append(el("span", "state", "Recorded."), ghost("Not recorded", () => { setRecorded(c.id, false); rerender(); }));
+    } else {
+      bar.append(el("span", "state", "Skipped."), ghost("Bring it back", () => { setStatus(c.id, "fresh"); rerender(); }));
+    }
+    bar.hidden = false;
+  }
+
+  // ---- STUDIO (recording mode) ----
+
+  async function holdScreen() {
+    try { if ("wakeLock" in navigator && !wakeLock) wakeLock = await navigator.wakeLock.request("screen"); } catch { /* not supported */ }
+  }
+  function releaseScreen() {
+    try { if (wakeLock) wakeLock.release(); } catch { /* ignore */ }
+    wakeLock = null;
+  }
+
+  function renderStudio(id) {
+    const c = cards.find(x => x.id === id);
+    const root = $("#view-studio");
+    if (!c) { root.replaceChildren(el("p", "empty", "Video not found.")); return; }
+    const lines = has(c.lines) ? c.lines : [];
+    const hook = lines.find(l => l.kind === "hook");
+    const closer = lines.find(l => l.kind === "closer");
+    const beats = has(c.beats) ? c.beats : [];
+    const ticks = getTicks(c.id, beats.length);
+
+    const top = el("div", "studio-top");
+    const progress = el("span", "progress");
+    const updateProgress = () => { progress.textContent = getTicks(c.id, beats.length).filter(Boolean).length + " / " + beats.length; };
+    top.append(link(null, "← Exit studio", "#/card/" + encodeURIComponent(c.id)), progress);
+    root.replaceChildren(top);
+
+    root.append(el("span", "label", "Hook"), el("p", "say", hook ? hook.text : c.title));
+    root.append(el("span", "label", "Talking points — tap as you nail them"));
+    const ul = el("ul", "studio-points");
+    beats.forEach((b, i) => {
+      const li = el("li");
+      const btn = el("button", ticks[i] ? "done" : null, b);
+      btn.type = "button";
+      btn.addEventListener("click", () => { btn.classList.toggle("done", toggleTick(c.id, i, beats.length)); updateProgress(); });
+      li.append(btn);
+      ul.append(li);
+    });
+    root.append(ul);
+    if (closer) root.append(el("span", "label", "Closer"), el("p", "say closer", closer.text));
+    const done = el("button", "primary done-btn");
+    done.type = "button";
+    done.append(el("span", null, "Done — mark recorded"), el("span", null, "✓"));
+    done.addEventListener("click", () => { setRecorded(c.id, true); location.hash = "#/card/" + encodeURIComponent(c.id); });
+    root.append(done);
+    updateProgress();
+    holdScreen();
+  }
+
+  // ---- DROP ----
 
   function wireDrop() {
     const box = $("#drop-text");
-    const row = $("#drop-pillars");
-
-    const save = (pillar) => {
+    const save = pillar => {
       const text = box.value.trim();
       if (!text) return;
-      addDrop(text, pillar);
+      const card = addDrop(text, pillar);
       box.value = "";
-      // straight to where it landed — no ceremony
-      location.hash = pillar ? "#/pillar/" + pillar : "#/";
+      location.hash = "#/card/" + encodeURIComponent(card.id);
     };
-
-    row.replaceChildren(...PILLARS.map(p => {
+    $("#drop-pillars").replaceChildren(...PILLARS.map(p => {
       const b = el("button", "pillar-btn", p);
       b.type = "button";
       b.addEventListener("click", () => save(p));
       return b;
     }));
-
     $("#drop-skip").addEventListener("click", () => save(null));
   }
 
   // ---- routing ----
 
   function route() {
-    const hash = location.hash || "#/";
-    const views = {
-      home: $("#view-home"), pillar: $("#view-pillar"),
-      card: $("#view-card"), news: $("#view-news"), drop: $("#view-drop"),
-    };
-    Object.values(views).forEach(v => { v.hidden = true; });
-
-    const cardMatch = hash.match(/^#\/card\/([^?]+)(?:\?from=([A-Za-z]+))?$/);
-    const newsMatch = hash.match(/^#\/news\/([^?]+)$/);
-    const pillarMatch = hash.match(/^#\/pillar\/([A-Za-z]+)(?:\/(news|videos))?$/);
-
-    if (cardMatch) {
-      renderCard(decodeURIComponent(cardMatch[1]), cardMatch[2] || null);
-      views.card.hidden = false;
-    } else if (newsMatch) {
-      renderNewsDetail(decodeURIComponent(newsMatch[1]));
-      views.news.hidden = false;
-    } else if (pillarMatch && (PILLARS.includes(pillarMatch[1]) || pillarMatch[1] === "unfiled")) {
-      renderPillar(pillarMatch[1], pillarMatch[2] || "videos");
-      views.pillar.hidden = false;
-    } else if (hash === "#/drop") {
-      views.drop.hidden = false;
-      $("#drop-text").focus();
-    } else {
-      renderHome();
-      views.home.hidden = false;
+    let hash = location.hash || "#/";
+    // legacy routes from the pillar-page design
+    const legacy = hash.match(/^#\/pillar\/([A-Za-z]+)(\/news)?$/);
+    if (legacy) {
+      const p = PILLARS.includes(legacy[1]) ? "/" + legacy[1] : "";
+      location.replace((legacy[2] ? "#/news" : "#/videos") + p);
+      return;
     }
+    hash = hash.replace(/\?from=[A-Za-z]+$/, "");
+
+    const views = ["today", "videos", "news", "item", "card", "studio", "drop"];
+    views.forEach(v => { $("#view-" + v).hidden = true; });
+    $("#actionbar").hidden = true;
+
+    let show = "today", tab = "today";
+    let m;
+    if ((m = hash.match(/^#\/videos(?:\/([A-Za-z]+))?$/))) {
+      show = tab = "videos"; renderVideos(PILLARS.includes(m[1]) ? m[1] : null);
+    } else if ((m = hash.match(/^#\/news(?:\/([^/?]+))?$/))) {
+      tab = "news";
+      if (m[1] && !PILLARS.includes(m[1])) { show = "item"; renderItem(decodeURIComponent(m[1])); }
+      else { show = "news"; renderNews(m[1] || null); }
+    } else if ((m = hash.match(/^#\/card\/(.+)$/))) {
+      show = "card"; tab = "videos"; renderCard(decodeURIComponent(m[1]));
+    } else if ((m = hash.match(/^#\/studio\/(.+)$/))) {
+      show = "studio"; tab = null; renderStudio(decodeURIComponent(m[1]));
+    } else if (hash === "#/drop") {
+      show = "drop"; tab = null;
+      setTimeout(() => $("#drop-text").focus(), 0);
+    } else {
+      renderToday();
+    }
+
+    if (show !== "studio") releaseScreen();
+    if (show !== "card") $("#actionbar").hidden = true;
+    $("#view-" + show).hidden = false;
+    const studio = show === "studio";
+    $("#topbar").hidden = studio;
+    $("#bottomnav").hidden = studio;
+    document.querySelectorAll("#bottomnav a").forEach(a => a.classList.toggle("on", a.dataset.tab === tab));
     window.scrollTo(0, 0);
   }
 
   // ---- boot ----
 
   async function main() {
+    $("#today-date").textContent = new Date().toLocaleDateString("en-ZA", { weekday: "short", day: "numeric", month: "short" });
     wireDrop();
     await loadData();
     route();
     window.addEventListener("hashchange", route);
-
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && !$("#view-studio").hidden) holdScreen();
+    });
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("sw.js").catch(() => { /* fine on file:// */ });
     }

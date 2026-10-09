@@ -1,5 +1,15 @@
 # Mouthpiece — Decisions
 
+## 2026-10-09 — Council redesign: action-first (Codex + Antigravity)
+
+- **Sean on the pillar home:** "It's literally just in the centre with four blocks and then just empty space everywhere. It just doesn't make sense… go get Codex and Antigravity to help you. The council needs to help you." Both seats independently converged: Codex — "Home is a filing cabinet"; Antigravity — "Backwards IA… Sean doesn't open the app to admire SEO."
+- **Home = Today, ordered by urgency:** lead slot (Record next if anything's agreed, else Review next) → Needs your OK (3) → News worth your time (2). Bottom nav Today / Videos / News. **Pillars are filter chips, never pages** (old `#/pillar/...` links redirect).
+- **Card:** take first ("What I'd tell a client" — Codex's signature field; until Sean writes `take`, it shows the first sentence of the angle, labelled Claude's draft), then talking points → Sean's additions → hook/punch/closer → folded receipts. **Sticky action bar**: Agree this version → Enter studio.
+- **Studio mode** (Antigravity's distinctive move): no nav, hook + huge tappable talking points that dim when done, closer, progress, screen wake-lock, "Done — mark recorded".
+- Breakdown leads with substance; the trail moved to a compact line at the bottom (Codex: the timeline was delaying the breakdown).
+- Antigravity seat was DOWN via `council ask` (empty response) and blocked on tool permissions headless; answered when re-asked text-only with no file paths. Did not use `--dangerously-skip-permissions`.
+- **Content correction (Sean):** the Conversion Lift card missed the point ("proof of what?"). Google has three lift studies — Search Lift (brand searches after ads), Brand Lift (recall/favourability), Conversion Lift (purchases). Sean's "how people search for and react to your brand" = Search + Brand Lift (YouTube/Demand Gen only). Hooks were in a generic voice, not Sean's. Card rewrite pending Sean's pick of framing.
+
 ## 2026-10-08 — Two things per pillar: News + Videos (IA simplification)
 
 - **Three sections → two tabs.** Sean: "I'm getting a little confused with the news that we're tracking versus the angles that we're going for, and then the pipeline." News / Angles / Pipeline were one flow shown as three lists. Now each pillar has **Videos** (default tab) and **News**. Angles is retired as a section; the angle lives inside its video (folded). The stage pipeline (idea/researched/ready/recorded + chips + tappable stage row) is gone; videos are grouped Ready to record / Needs research / Recorded / Skipped.

@@ -3,7 +3,7 @@
    deploy; offline you get the last copy. (Cache-first shell meant every update showed
    the OLD app on the first open after a deploy — changed 2026-10-08.) */
 
-const VERSION = "mouthpiece-v7";
+const VERSION = "mouthpiece-v8";
 const SHELL_CACHE = VERSION + "-shell";
 const DATA_CACHE = VERSION + "-data";
 
